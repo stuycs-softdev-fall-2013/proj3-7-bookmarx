@@ -1,0 +1,13 @@
+Users
+* name
+* list of tags
+
+Tags
+* name
+* color
+* [bookmarx]
+
+Bookmarks
+* name
+* link
+* [tags] ?
