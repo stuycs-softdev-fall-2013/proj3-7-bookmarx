@@ -1,3 +1,16 @@
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> </link>
-<img src="{{ url_for('static', filename='logo.png') }}"></img>
-<h1> Homepage! </h1>
+{% include 'header.html' %}
+
+<h2> Log in </h2>
+
+{% if d['action'] == 'register' %}
+Successfully registered! <br>
+<br>
+{% endif %}
+{% if d['action'] == 'login' %}
+Logged in! <br>
+<br>
+{% endif %}
+
+{% if not d['loggedin'] %}
+{% include 'login.html' %}
+{% endif %}

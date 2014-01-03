@@ -1,5 +1,6 @@
 Users
 * name
+* password (encrypted)
 * list of tags
 
 Tags
