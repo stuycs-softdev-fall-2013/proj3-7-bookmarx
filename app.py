@@ -21,6 +21,9 @@ def home():
 
 	# POST
 	d['action'] = 'login'
+	d['loggedin'] = True
+	session['usern'] = request.form['usern']
+	session['pswd'] = request.form['pswd']
 	return render_template("home.html", d=d)
 
 @app.route("/register", methods=["GET", "POST"])
@@ -34,6 +37,14 @@ def register():
 		session['pswd'] = form['pswd']
 		session['action'] = 'register'
 		return redirect(url_for('home'))
+
+@app.route("/logout")
+def logout():
+	if 'usern' in session:
+		del session['usern']
+	if 'pswd' in session:
+		del session['pswd']
+	return redirect(url_for('home'))
 
 if __name__ == "__main__":
 	app.debug = True

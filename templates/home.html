@@ -1,19 +1,45 @@
-{% include 'header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> BookMarx </title>
+  {% include 'header.html' %}
+  <style>
+    #sortable { list-style-type: none; margin: 0; padding: 0; width: 20%; }
+    #sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 18px; }
+    #sortable li span { position: absolute; margin-left: -1.3em; }
+  </style>
+  <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</head>
 
-<h2> Log in </h2>
+<body>
+  {% if d['action'] == 'register' %}
+  Successfully registered! <br>
+  <br>
+  {% endif %}
+  {% if d['action'] == 'login' %}
+  Logged in! <br>
+  <br>
+  {% endif %}
 
-{% if d['action'] == 'register' %}
-Successfully registered! <br>
-<br>
-{% endif %}
-{% if d['action'] == 'login' %}
-Logged in! <br>
-<br>
-{% endif %}
+  {% if d['loggedin'] %}
+  <ul id="sortable">
+    <li class='ui-state-default'>
+      <a href="http://google.com">this is a link</a>
+    </li>
+    <li class='ui-state-default'>2</li>
+    <li class='ui-state-default'>3</li>
+  </ul>
 
-{% if not d['loggedin'] %}
-{% include 'login.html' %}
-{% endif %}
+  <div id='new-bookmark'>
+    <input type='text' id='name' />
+    <input type='text' id='link' />
+    <input type='button' id='make-bookmark' value='Make' />
+  </div>
 
-<script src="url_for('static', filename='js/jquery2.0.min.js'"></script>
-<script src="url_for('static', filename='js/home.js'"></script>
+  <a href="{{ url_for('logout') }}"> Log out </a>
+  {% else %}
+  <h2> Log in </h2>
+  {% include 'login.html' %}
+  {% endif %}
+</body>
+</html>
