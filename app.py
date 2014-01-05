@@ -1,8 +1,8 @@
 from flask import Flask
 from flask import render_template, url_for, request, session, redirect
 import user
-#import tag
-#import bookmark
+import tag
+import bookmark
 
 app = Flask(__name__)
 app.secret_key = "wacky potato fingers"
