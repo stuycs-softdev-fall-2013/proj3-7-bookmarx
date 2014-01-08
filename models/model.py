@@ -11,11 +11,11 @@ class Model(object):
   # This should be overrided by a subclass to provide DB load
   # It will be automatically called in the constructor
   def load(self):
-    print "birth"
+    print self, "should override load!"
   # This should be overrided by a subclass to provide DB unload
   # It will be automatically called in the destructor
   def unload(self):
-    print "death"
+    print self, "should override unload!"
 
 if __name__ == '__main__':
   m = Model()
