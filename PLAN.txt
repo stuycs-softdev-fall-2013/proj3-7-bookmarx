@@ -1,0 +1,21 @@
+Data that needs storin':
+  Comrades
+    - Username
+    - OAuth Token
+    - Tags
+    - Fellows
+    - Followed Tags
+  Tags
+    - ID
+    - Name
+    - Description
+    - Color
+    - Creator
+    - Bookmarks
+    - Privacy
+  Bookmarks
+    - ID
+    - Link
+    - Tags
+    - Title
+    ? Description
