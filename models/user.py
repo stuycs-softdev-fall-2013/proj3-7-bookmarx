@@ -2,13 +2,13 @@ from model import Model
 import database
 
 class User(Model):
-  name = "Default Username"
-  token = ""
+  username = "Default Username"
+  token = "No token"
   tags = []
   friends = []
-  followed = []
-  def __init__(self, username):
-    self.name = username
+  followed_tags = []
+  def __init__(self, name):
+    self.username = name
     super(User, self).__init__()
   def __repr__(self):
     return "<User %d>"%(self.id)
