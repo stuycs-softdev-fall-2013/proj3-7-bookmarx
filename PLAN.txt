@@ -1,5 +1,5 @@
 Data that needs storin':
-  Comrades
+  Users
     - Username
     - OAuth Token
     - Tags
