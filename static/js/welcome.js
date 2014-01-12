@@ -1,16 +1,16 @@
 var count = 0;
 var signinCallback = function(authResult) {
-	if (authResult['status']['signed_in']) {
-		if (count != 0) {
+	if (count != 0) {
+		if (authResult['status']['signed_in']) {
 			token = authResult.access_token;
 			$.ajax({
 				url: 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='+token,
 				data: null,
 				dataType: "jsonp"  
 			}).success(getUserInfo);
-		} else {
-			count++;
 		}
+	} else {
+		count++;
 	}
 }
 
