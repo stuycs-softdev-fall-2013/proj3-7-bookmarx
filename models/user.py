@@ -19,10 +19,6 @@ class User(Model):
       self.tags = variables[2].split(',')
       self.friends = variables[3].split(',')
       self.followed = variables[4].split(',')
-      print self.token
-      print self.tags
-      print self.friends
-      print self.followed
   def unload(self):
     variables = [self.name,self.token,",".join(self.tags),",".join(self.friends),",".join(self.followed)]
     database.setUser(variables)

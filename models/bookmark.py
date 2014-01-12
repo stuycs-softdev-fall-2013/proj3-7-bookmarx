@@ -17,10 +17,6 @@ class Bookmark(Model):
       self.link = variables[1]
       self.tags = variables[2].split(',')
       self.title = variables[3]
-    print self.idnum
-    print self.link
-    print self.tags
-    print self.title
   def unload(self):
     variables = [self.idnum,self.link,','.join(str(v) for v in self.tags),self.title]
     print database.setBookmark(variables)
