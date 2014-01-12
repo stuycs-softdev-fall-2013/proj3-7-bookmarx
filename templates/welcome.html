@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> BookMarx </title>
+  {% include 'header.html' %}
+  <script src="{{ url_for('static', filename='js/welcome.js') }}"></script>
+</head>
+
+<body>
+  <h2> Velcome Comrade </h2>
+  <span id="signinButton">
+    <span
+      class="g-signin"
+      data-callback="signinCallback"
+      data-clientid="150945321637-31ktqfqjt0e24dhqb9i30vehm9vkdmk0.apps.googleusercontent.com"
+      data-cookiepolicy="single_host_origin"
+      data-requestvisibleactions=""
+      data-scope="profile https://www.googleapis.com/auth/plus.me">
+    </span>
+  </span>
+
+  <!-- Google login js -->
+  <script type="text/javascript">
+    (function() {
+     var po = document.createElement('script');
+     po.type = 'text/javascript';
+     po.async = true;
+     po.src = 'https://apis.google.com/js/client:plusone.js';
+     var s = document.getElementsByTagName('script')[0];
+     s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+</body>
+</html>
