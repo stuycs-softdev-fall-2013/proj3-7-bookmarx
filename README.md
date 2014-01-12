@@ -6,10 +6,10 @@ Bookmark manager for the people
 Team
 ----
 
-*Glorious Leader:* Josh Hofing [@Hypersonic](github.com/Hypersonic)
+_Glorious Leader:_ Josh Hofing [@Hypersonic](github.com/Hypersonic)
 
-*Secretary of War:* Zane Sterling [@Shriken](github.com/Shriken)
+_Secretary of War:_ Zane Sterling [@Shriken](github.com/Shriken)
 
-*Secretary of State:* Chris Burke [@cburke496](github.com/cburke496)
+_Secretary of State:_ Chris Burke [@cburke496](github.com/cburke496)
 
-*Secretary of Awesome:* Isabella Siu [@iwysiu](github.com/iwysiu)
+_Secretary of Awesome:_ Isabella Siu [@iwysiu](github.com/iwysiu)
