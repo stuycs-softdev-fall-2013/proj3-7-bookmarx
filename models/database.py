@@ -1,6 +1,6 @@
 import sqlite3
 
-userFields = ["username","token", "tags", "friends", "followed"]
+userFields = ["username","password","token", "tags", "friends", "followed"]
 tagFields = ["id", "name", "description", "color", "creator", "bookmarks", "privacy"]
 bookmarkFields = ["id", "link", "tags", "title"]
 
@@ -52,8 +52,8 @@ def setUser(info):
     cursor = connection.execute(q, [info[0]])
     results = [line for line in cursor]
     if len(results) == 0:
-        q = "insert into users values(?,?,?,?,?)"
-        cursor = connection.execute(q,[info[0],info[1],info[2],info[3],info[4]])
+        q = "insert into users values(?,?,?,?,?,?)"
+        cursor = connection.execute(q,[info[0],info[1],info[2],info[3],info[4],info[5]])
         connection.commit()
         return 1
     for i in range(0,len(userFields) ):
