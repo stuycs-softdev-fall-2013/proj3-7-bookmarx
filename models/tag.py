@@ -23,12 +23,6 @@ class Tag(Model):
       self.creator = variables[4]
       self.bookmarks = variables[5].split(',')
       self.privacy = variables[6]
-      print self.name
-      print self.description
-      print self.color
-      print self.creator
-      print self.bookmarks
-      print self.privacy
   def unload(self):
-    variables2 = [self.idnum,self.name,self.description,','.join(str(v) for v in self.color),self.creator,','.join(str(v) for v in self.bookmarks),self.privacy]
-    database.setTag(variables2)
+    variables = [self.idnum,self.name,self.description,','.join(str(v) for v in self.color),self.creator,','.join(str(v) for v in self.bookmarks),self.privacy]
+    database.setTag(variables)
