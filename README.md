@@ -10,6 +10,6 @@ Glorious Leader: Josh Hofing @Hypersonic
 
 Secretary of War: Zane Sterling @Shriken
 
-Chris
+Secretary of State: Chris @cburke
 
-Isabella
+Secretary of Awesome: Isabella @iwysiu
