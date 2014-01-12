@@ -30,5 +30,5 @@ class Tag(Model):
       print self.bookmarks
       print self.privacy
   def unload(self):
-    variables = [self.idnum,self.name,self.description,','.join(self.color),self.creator,','.join(self.bookmarks),self.privacy]
-    database.setTag(variables)
+    variables2 = [self.idnum,self.name,self.description,','.join(str(v) for v in self.color),self.creator,','.join(str(v) for v in self.bookmarks),self.privacy]
+    database.setTag(variables2)
