@@ -15,7 +15,7 @@ class Tag(Model):
   def __repr__(self):
     return "<Tag %d>"%(self.id)
   def load(self):
-    variables = database.getTag(self.name)
+    variables = database.getTag(self.idnum)
     if variables != 0:
       self.name = variables[1]
       self.description = variables[2]
