@@ -10,7 +10,7 @@ app.secret_key = "wacky potato fingers"
 @app.route("/welcome")
 def welcome():
 	if 'usern' in session:
-		return redirect(url_for(home))
+		return redirect(url_for('home'))
 	return render_template("welcome.html")
 
 @app.route("/", methods=["GET", "POST"])
