@@ -11,7 +11,7 @@ class User(Model):
     self.username = name
     super(User, self).__init__()
   def __repr__(self):
-    return "<User %d>"%(self.id)
+    return "<User %s>"%(self.token)
   def load(self):
     variables = database.getUser(self.name)
     if variables != 0:

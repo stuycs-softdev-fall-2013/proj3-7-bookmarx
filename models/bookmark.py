@@ -10,7 +10,7 @@ class Bookmark(Model):
     self.idnum = idnumber
     super(Bookmark, self).__init__()
   def __repr__(self):
-    return "<Bookmark %d>"%(self.id)
+    return "<Bookmark %d>"%(self.idnum)
   def load(self):
     variables = database.getBookmark(self.idnum)
     if variables != 0:

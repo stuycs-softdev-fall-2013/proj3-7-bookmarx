@@ -13,7 +13,7 @@ class Tag(Model):
     self.idnum = idnumber
     super(Tag, self).__init__()
   def __repr__(self):
-    return "<Tag %d>"%(self.id)
+    return "<Tag %d>"%(self.idnum)
   def load(self):
     variables = database.getTag(self.idnum)
     if variables != 0:
