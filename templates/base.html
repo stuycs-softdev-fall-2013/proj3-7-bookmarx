@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <title>
+    {% block title %}{% endblock %} - Bookmarx
+  </title>
+  <head>
+    {% block head %}
+      <!-- Add favicon -->
+      <link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}">
+      </link>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui-1.10.3.custom.min.css') }}">
+      </link>
+      <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+      </link>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
+      </link>
+      <script src="{{ url_for('static', filename='js/jquery2.0.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/jquery.redirect.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+      <script>
+        var URL = window.location.origin + '/';
+      </script>
+    {% endblock %}
+  </head>
+
+  <body>
+    <div id="header">
+      {% block header %}
+        <a href='/'>
+          <img src="{{ url_for('static', filename='imgs/logo.png') }}"></img>
+        </a>
+        {% endblock %}
+      </div>
+    <div id="content"> {% block content %} {% endblock %}</div>
+    <div id="footer">
+      {% block footer %}
+      &copy; Copyright 2014 Bookmarx.
+      {% endblock %}
+    </div>
+  </body>
+</html>

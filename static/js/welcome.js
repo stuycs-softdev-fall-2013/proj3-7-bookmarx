@@ -58,4 +58,4 @@ window.fbAsyncInit = function() {
 			console.log("wat response.status was not connected, facebook");
 		}
 	});
-};
+}

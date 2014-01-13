@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title> BookMarx </title>
-  {% include 'imports.html' %}
-  {% include 'header.html' %}
-  <script src="{{ url_for('static', filename='js/welcome.js') }}"></script>
-</head>
+{% extends "base.html" %}
+{% block title %} Welcome {% endblock %}
+{% block head %}
+  {{ super() }}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/welcome.js') }}"></script>
+{% endblock %}
 
-<body>
+{% block content %}
   <h2> Velcome Comrade </h2>
   <span id="signinButton" class="signinButton">
     <span
@@ -21,26 +19,28 @@
     </span>
   </span><br>
   <fb:login-button size="large"></fb:login-button>
+{% endblock %}
 
-  <script type="text/javascript">
-    // Load Google SDK asynchronously
-    (function() {
-      var po = document.createElement('script');
-      po.type = 'text/javascript';
-      po.async = true;
-      po.src = 'https://apis.google.com/js/client:plusone.js';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(po, s);
-    })();
+{% block footer %}
+{{ super() }}
+<script type="text/javascript">
+  // Load Google SDK asynchronously
+  (function() {
+    var po = document.createElement('script');
+    po.type = 'text/javascript';
+    po.async = true;
+    po.src = 'https://apis.google.com/js/client:plusone.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(po, s);
+  })();
 
-    // Load Facebook SDK asynchronously
-    (function(d){
-      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement('script'); js.id = id; js.async = true;
-      js.src = "//connect.facebook.net/en_US/all.js";
-      ref.parentNode.insertBefore(js, ref);
-    }(document));
-  </script>
-</body>
-</html>
+  // Load Facebook SDK asynchronously
+  (function(d){
+    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true; js.type="text/javascript";
+    js.src = "http://connect.facebook.net/en_US/all.js";
+    ref.parentNode.insertBefore(js, ref);
+  })(document);
+</script>
+{% endblock %}

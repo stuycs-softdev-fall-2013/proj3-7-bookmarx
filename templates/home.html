@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title> BookMarx </title>
-  {% include 'imports.html' %}
-  {% include 'header.html' %}
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+  {{ super() }}
   <style>
     #sortable { list-style-type: none; margin: 0; padding: 0; width: 20%; }
     #sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 18px; }
     #sortable li span { position: absolute; margin-left: -1.3em; }
   </style>
   <script src="{{ url_for('static', filename='js/home.js') }}"></script>
-</head>
+  {% endblock %}
 
-<body>
+  {% block content %}
   <ul id="sortable">
     <li class='ui-state-default'>
       <a href="http://google.com">this is a link</a>
@@ -28,5 +26,4 @@
   </div>
 
   <a href="{{ url_for('logout') }}"> Log out </a>
-</body>
-</html>
+  {% endblock %}
