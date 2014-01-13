@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <title> BookMarx </title>
-  {% include 'header.html' %}
+  {% include 'imports.html' %}
   <style>
     #sortable { list-style-type: none; margin: 0; padding: 0; width: 20%; }
     #sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 18px; }
@@ -23,7 +23,7 @@
   <div id='new-bookmark'>
     <input type='text' id='name' />
     <input type='text' id='link' />
-    <input type='button' id='make-bookmark' value='Make' />
+    <input type='button' class="btn btn-primary" id='make-bookmark' value='Make' />
   </div>
 
   <a href="{{ url_for('logout') }}"> Log out </a>
