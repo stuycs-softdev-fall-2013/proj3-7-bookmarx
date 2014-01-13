@@ -2,8 +2,6 @@ Data that needs storin':
   Users
     - Username
     - OAuth Token
-    - Fellows
-    - Followed Tags
   Tags
     - ID
     - Name
@@ -15,14 +13,17 @@ Data that needs storin':
     - ID
     - Link
     - Title
-	- Creator
+    - Creator
   Tagging
-	- Bookmark
-	- Tag
-  Friendship ?
-	- friender
-	- friendee
+    - Bookmark
+    - Tag
+  Friendship
+    - User1
+    - User2
+  Followings
+    -User
+    -Tag
 
 
-SELECT FROM bookmarks,tags,taggings WHERE bookmark.id = some_constant AND tagging.bookmark = some_constant AND tagging.tag = tag.id
-SELECT FROM users,users,friendships WHERE friendship.friender = user1.id AND friendship.friendee = user2.id
+Example of how to get all tags on a certain bookmark:
+SELECT tags.* FROM tags,bookmarks,taggings WHERE bookmarks.id = 1 AND taggings.bookmark = 1 AND tags.id = taggings.tag;
