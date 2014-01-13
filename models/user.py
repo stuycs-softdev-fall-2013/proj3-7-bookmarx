@@ -13,12 +13,12 @@ class User(Model):
   def __repr__(self):
     return "<User %s>"%(self.token)
   def load(self):
-    variables = database.getUser(self.name)
+    variables = database.getUser(self.username)
     if variables != 0:
       self.token = variables[1]
       self.tags = variables[2].split(',')
       self.friends = variables[3].split(',')
       self.followed = variables[4].split(',')
   def unload(self):
-    variables = [self.name,self.token,",".join(self.tags),",".join(self.friends),",".join(self.followed)]
+    variables = [self.username,self.token,",".join(self.tags),",".join(self.friends),",".join(self.followed)]
     database.setUser(variables)
