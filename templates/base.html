@@ -27,11 +27,9 @@
   <body>
     <div id="header">
       {% block header %}
-        <a href='/'>
-          <img src="{{ url_for('static', filename='imgs/logo.png') }}"></img>
-        </a>
-        {% endblock %}
-      </div>
+      {% include "navbar.html" %}
+      {% endblock %}
+    </div>
     <div id="content"> {% block content %} {% endblock %}</div>
     <div id="footer">
       {% block footer %}
