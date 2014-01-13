@@ -2,7 +2,6 @@ Data that needs storin':
   Users
     - Username
     - OAuth Token
-    - Tags
     - Fellows
     - Followed Tags
   Tags
@@ -11,11 +10,19 @@ Data that needs storin':
     - Description
     - Color
     - Creator
-    - Bookmarks
     - Privacy
   Bookmarks
     - ID
     - Link
-    - Tags
     - Title
-    ? Description
+	- Creator
+  Tagging
+	- Bookmark
+	- Tag
+  Friendship ?
+	- friender
+	- friendee
+
+
+SELECT FROM bookmarks,tags,taggings WHERE bookmark.id = some_constant AND tagging.bookmark = some_constant AND tagging.tag = tag.id
+SELECT FROM users,users,friendships WHERE friendship.friender = user1.id AND friendship.friendee = user2.id
