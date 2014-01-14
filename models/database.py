@@ -1,8 +1,8 @@
 import sqlite3
 
-userFields = ["username","password","token", "tags", "friends", "followed"]
-tagFields = ["id", "name", "description", "color", "creator", "bookmarks", "privacy"]
-bookmarkFields = ["id", "link", "tags", "title"]
+userFields = ["username","token"]
+tagFields = ["id", "name", "description", "color", "creator", "privacy"]
+bookmarkFields = ["id", "link", "title"]
 
 ################################ GET FUNCTIONS #################################
 #Get functions return 0 if the entry doesn't exist
@@ -12,6 +12,18 @@ def getUser(username):
     q = "select * from users where username=?"
     cursor = connection.execute(q, [username])
     results = [line for line in cursor]
+    q = "select * from tags where creator=?"
+    cursor = connection.execute(q, [username])
+    tags = [line for line in cursor]
+    results.append(tags)
+    q = "select user2 from friendships where user1=?"
+    cursor = connection.execute(q, [username])
+    friends = [line for line in cursor]
+    results.append(friends)
+    q = "select tags.* from tags,followings where followings.user=? and tags.id=followings.tag"
+    cursor = connection.execute(q, [username])
+    followed = [line for line in cursor]
+    results.append(followed)
     if len(results) == 1:
         return results[0]
     else:
