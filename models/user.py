@@ -20,5 +20,4 @@ class User(Model):
       self.friends = variables[3]
       self.followed = variables[4]
   def unload(self):
-    variables = [self.username,self.token,",".join(self.tags),",".join(self.friends),",".join(self.followed)]
-    database.setUser(variables)
+    database.setUser(self.username,self.token,self.tags,self.followed,self.friends)
