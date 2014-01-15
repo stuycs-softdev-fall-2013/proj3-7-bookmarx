@@ -12,8 +12,8 @@ def getUser(username):
     q = "select * from users where username=?"
     cursor = connection.execute(q, [username])
     results = [line for line in cursor]
-    results = [line for line in results[0]]
     if len(results) == 1:
+        results = [line for line in results[0]]
         q = "select * from tags where creator=?"
         cursor = connection.execute(q, [username])
         tags = [line for line in cursor]
@@ -21,12 +21,16 @@ def getUser(username):
         q = "select user2 from friendships where user1=?"
         cursor = connection.execute(q, [username])
         friends = [line for line in cursor]
+        q = "select user1 from friendships where user2=?"
+        cursor = connection.execute(q, [username])
+        friends2 = [line for line in cursor]
+        friends.extend(friends2)
         results.append(friends)
         q = "select tags.* from tags,followings where followings.user=? and tags.id=followings.tag"
         cursor = connection.execute(q, [username])
         followed = [line for line in cursor]
         results.append(followed)
-        return results[0]
+        return results
     else:
         return 0
 
@@ -36,14 +40,14 @@ def getTag(id):
     q = "select * from tags where id=?"
     cursor = connection.execute(q, [id])
     results = [line for line in cursor]
-    results = [line for line in results[0]]
     if len(results) == 1:
+        results = [line for line in results[0]]
         results[3] = results[3].split(',')
-        q = "select bookmarks.* from bookmarks,taggings where taggings.tag=?,taggings.bookmark=bookmark.id"
-        cursor = connection.execite(q, [id])
+        q = "select bookmarks.* from bookmarks,taggings where taggings.tag=? and taggings.bookmark=bookmarks.id"
+        cursor = connection.execute(q, [id])
         bookmarks = [line for line in cursor]
         results.append(bookmarks)
-        return results[0]
+        return results
     else:
         return 0
 
@@ -53,13 +57,13 @@ def getBookmark(id):
     q = "select * from bookmarks where id=?"
     cursor = connection.execute(q, [id])
     results = [line for line in cursor]
-    results = [line for line in results[0]]
     if len(results) == 1:
-        q = "select tags.* from tags,taggings where taggings.bookmark=?,taggings.tag=tag.id"
+        results = [line for line in results[0]]
+        q = "select tags.* from tags,taggings where taggings.bookmark=? and taggings.tag=tags.id"
         cursor = connection.execute(q, [id])
         tags = [line for line in cursor]
         results.append(tags)
-        return results[0]
+        return results
     else:
         return 0
 
@@ -91,7 +95,9 @@ def setUser(username, token, tags, followed, friends):
     for i in range (0,len(followed)):
         q = "insert into followings values(?,?)"
         cursor = connection.execute(q, [username, followed[i][0]])
-    q = "delete from friendships where friendships.user=?"
+    q = "delete from friendships where friendships.user1=?"
+    cursor = connection.execute(q, [username])
+    q = "delete from friendships where friendships.user2=?"
     cursor = connection.execute(q, [username])
     for i in range (0,len(friends)):
         q = "insert into friendships values(?,?)"
@@ -108,8 +114,8 @@ def setTag(id,name,description,color,creator,privacy,bookmarks):
     cursor = connection.execute(q, [info[0]])
     results = [line for line in cursor]
     if len(results) == 0:
-        q = "insert into tags values(?,?,?,?,?,?,?)"
-        cursor = connection.execute(q,[info[0],info[1],info[2],info[3],info[4],info[5],info[6]])
+        q = "insert into tags values(?,?,?,?,?,?)"
+        cursor = connection.execute(q,[info[0],info[1],info[2],info[3],info[4],info[5]])
         connection.commit()
         return 1
     for i in range(0,len(tagFields) ):
