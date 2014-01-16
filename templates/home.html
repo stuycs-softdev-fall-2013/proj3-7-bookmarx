@@ -11,22 +11,19 @@
   {% endblock %}
 
   {% block content %}
-	<center>
-		<ul id="sortable">
-			<li class='ui-state-default'>
-				<a href="http://google.com">this is a link</a>
-			</li>
-			<li class='ui-state-default'>2</li>
-			<li class='ui-state-default'>3</li>
-		</ul>
+  <button class="btn btn-success btn-xs">+</button>
+  {% for tag in d['user'].tags %}
+  <div class="tag well">
+    <h3>{{ tag.name }}</h3>
+    <ul id="sortable">
+      {% for bookmark in tag.bookmarks %}
+      <li class='ui-state-default'><a href="{{ bookmark.link }}">{{ bookmark.title }}</a></li>
+      {% endfor %}
+    </ul>
+    <button class="btn btn-danger btn-xs">X</button>
+  </div>
+  {% endfor %}
 
-		<div id='new-bookmark'>
-			<input type='text' id='name' />
-			<input type='text' id='link' />
-			<br>
-			<input type='button' class="btn btn-primary" id='make-bookmark' value='Make' />
-		</div>
-	</center>
-
+  <br>
   <a href="{{ url_for('logout') }}"> Log out </a>
   {% endblock %}
