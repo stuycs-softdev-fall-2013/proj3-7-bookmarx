@@ -137,8 +137,8 @@ def setBookmark(id, link, title, tags):
     cursor = connection.execute(q, [info[0]])
     results = [line for line in cursor]
     if len(results) == 0:
-        q = "insert into bookmarks values(?,?,?,?)"
-        cursor = connection.execute(q,[info[0],info[1],info[2],info[3]])
+        q = "insert into bookmarks values(?,?,?)"
+        cursor = connection.execute(q,[info[0],info[1],info[2]])
         connection.commit()
         return 1
     for i in range(0,len(bookmarkFields) ):
@@ -164,9 +164,9 @@ def removeUser(username,tags):
     cursor = connection.execute(q,[username])
     q = "delete from followings where user=?"
     cursor = connection.execute(q,[username])
-    for tag in tags:
-        removeTag(tag)
     connection.commit()
+    for tag in tags:
+        removeTag(tag[0])
 #Note: This will only remove bookmarks that are tagged. We need to make sure there is some kind of "No Tag"-tag that other bookmarks will be tagged to
 
 
@@ -174,11 +174,17 @@ def removeTag(id):
     connection = sqlite3.connect('marx.db')
     q = "delete from tags where id=?"
     cursor = connection.execute(q,[id])
+    q = "select bookmark from taggings where tag=?"
+    cursor = connection.execute(q,[id])
+    bookmarks = [x[0] for x in cursor]
+    for bookmark in bookmarks:
+        q = "delete from bookmarks where id=?"
+        cursor = connection.execute(q,[id])
     q = "delete from taggings where tag=?"
     cursor = connection.execute(q,[id])
     q = "delete from followings where tag=?"
     cursor = connection.execute(q,[id])
-    q = "delete from bookmarks where tag=?"
+    q = "select bookmark from taggings where tag=?"
     cursor = connection.execute(q,[id])
     connection.commit()
 
