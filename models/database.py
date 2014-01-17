@@ -108,14 +108,14 @@ def setUser(username, token, tags, followed, friends):
 
 
 def setTag(id,name,description,color,creator,privacy,bookmarks):
-    info = [id,name,description,color,creator,privacy,bookmarks]
+    info = [id,name,description," ".join([str(c) for c in color]),creator,privacy,bookmarks]
     connection = sqlite3.connect('marx.db')
     q = "select * from tags where id=?"
     cursor = connection.execute(q, [info[0]])
     results = [line for line in cursor]
     if len(results) == 0:
         q = "insert into tags values(?,?,?,?,?,?)"
-        cursor = connection.execute(q,[info[0],info[1],info[2],info[3],info[4],info[5]])
+        cursor = connection.execute(q,info[:-1])
         connection.commit()
         return 1
     for i in range(0,len(tagFields) ):
@@ -125,7 +125,11 @@ def setTag(id,name,description,color,creator,privacy,bookmarks):
     q = "delete from taggings where tag=?"
     for i in range(0,len(bookmarks)):
         q = "insert into taggings values(?,?)"
-        cursor = connection.execute(q, [id,bookmarks[i][0]])
+        try:
+            cursor = connection.execute(q, [id,bookmarks[i].idnum])
+        except:
+            cursor = connection.execute(q, [id,bookmarks[i][0]])
+            print "FUCK"
     connection.commit()
     return 1
 
@@ -149,7 +153,11 @@ def setBookmark(id, link, title, tags):
     cursor = connection.execute(q, [id])
     for i in range (0,len(tags)):
         q = "insert into taggings values(?,?)"
-        cursor = connection.execute(q, [id,tags[i][0]])
+        try:
+            cursor = connection.execute(q, [id,tags[i].idnum])
+        except:
+            cursor = connection.execute(q, [id,tags[i][0]])
+            print "FUCK"
     connection.commit()
     return 1
 

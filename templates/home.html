@@ -17,7 +17,7 @@
     <h3>{{ tag.name }}</h3>
     <ul id="sortable">
       {% for bookmark in tag.bookmarks %}
-      <li class='ui-state-default'><a href="{{ bookmark.link }}">{{ bookmark.title }}</a></li>
+      <li class='ui-state-default'><a href="{{ bookmark.link }}">{{ bookmark.name }}</a></li>
       {% endfor %}
     </ul>
     <button class="btn btn-danger btn-xs">X</button>

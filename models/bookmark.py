@@ -4,8 +4,8 @@ import database
 class Bookmark(Model):
   idnum = 0
   link = "Default link"
-  title = "Default Bookmark Title"
   tags = []
+  name = "Default Bookmark Title"
   def __init__(self, idnumber=-1):
     self.idnum = idnumber
     super(Bookmark, self).__init__()
@@ -15,7 +15,7 @@ class Bookmark(Model):
     variables = database.getBookmark(self.idnum)
     if variables != 0:
       self.link = variables[1]
-      self.title = variables[2]
+      self.name = variables[2]
       self.tags = variables[3]
   def unload(self):
-    database.setBookark(self.idnum,self.link,self.title,self.tags)
+    database.setBookmark(self.idnum,self.link,self.title,self.tags)

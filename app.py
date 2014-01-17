@@ -23,6 +23,8 @@ def home():
 		b.title = "Googggggggle"
 		t.bookmarks.append(b)
 		b.tags.append(t)
+		t.unload()
+		b.unload()
 		return render_template("home.html", d=d)
 	
 	return redirect(url_for("welcome"))
