@@ -152,3 +152,39 @@ def setBookmark(id, link, title, tags):
         cursor = connection.execute(q, [id,tags[i][0]])
     connection.commit()
     return 1
+
+############################ REMOVE FUNCTIONS ##################################
+def removeUser(username,tags):
+    connection = sqlite3.connect('marx.db')
+    q = "delete from users where username=?"
+    cursor = connection.execute(q,[username])
+    q = "delete from friendships where user1=?"
+    cursor = connection.execute(q,[username])
+    q = "delete from friendships where user2=?"
+    cursor = connection.execute(q,[username])
+    q = "delete from followings where user=?"
+    cursor = connection.execute(q,[username])
+    for tag in tags:
+        removeTag(tag)
+    connection.commit()
+#Note: This will only remove bookmarks that are tagged. We need to make sure there is some kind of "No Tag"-tag that other bookmarks will be tagged to
+
+
+def removeTag(id):
+    connection = sqlite3.connect('marx.db')
+    q = "delete from tags where id=?"
+    cursor = connection.execute(q,[id])
+    q = "delete from taggings where tag=?"
+    cursor = connection.execute(q,[id])
+    q = "delete from followings where tag=?"
+    cursor = connection.execute(q,[id])
+    q = "delete from bookmarks where tag=?"
+    cursor = connection.execute(q,[id])
+    connection.commit()
+
+
+def removeBookmark(id):
+    connection = sqlite3.connect('marx.db')
+    q = "delete from bookmarks where id=?"
+    cursor = connection.execute(q,[id])
+    connection.commit()
