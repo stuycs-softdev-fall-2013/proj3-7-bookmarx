@@ -5,7 +5,7 @@ class Bookmark(Model):
   idnum = 0
   link = "Default link"
   tags = []
-  title = "Default Bookmark Title"
+  name = "Default Bookmark Title"
   def __init__(self, idnumber=-1):
     self.idnum = idnumber
     super(Bookmark, self).__init__()
@@ -15,8 +15,7 @@ class Bookmark(Model):
     variables = database.getBookmark(self.idnum)
     if variables != 0:
       self.link = variables[1]
-      self.tags = variables[2].split(',')
-      self.title = variables[3]
+      self.name = variables[2]
+      self.tags = variables[3]
   def unload(self):
-    variables = [self.idnum,self.link,','.join(str(v) for v in self.tags),self.title]
-    print database.setBookmark(variables)
+    database.setBookmark(self.idnum,self.link,self.title,self.tags)

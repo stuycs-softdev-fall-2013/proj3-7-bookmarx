@@ -16,9 +16,8 @@ class User(Model):
     variables = database.getUser(self.username)
     if variables != 0:
       self.token = variables[1]
-      self.tags = variables[2].split(',')
-      self.friends = variables[3].split(',')
-      self.followed = variables[4].split(',')
+      self.tags = variables[2]
+      self.friends = variables[3]
+      self.followed = variables[4]
   def unload(self):
-    variables = [self.username,self.token,",".join(self.tags),",".join(self.friends),",".join(self.followed)]
-    database.setUser(variables)
+    database.setUser(self.username,self.token,self.tags,self.followed,self.friends)
