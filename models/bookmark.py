@@ -6,7 +6,7 @@ class Bookmark(Model):
   link = "Default link"
   title = "Default Bookmark Title"
   tags = []
-  def __init__(self, idnumber):
+  def __init__(self, idnumber=-1):
     self.idnum = idnumber
     super(Bookmark, self).__init__()
   def __repr__(self):

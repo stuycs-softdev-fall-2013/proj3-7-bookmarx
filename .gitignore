@@ -2,3 +2,5 @@
 *.pyc
 # vim swp
 *.swp
+# Database
+*.db

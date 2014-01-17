@@ -14,7 +14,16 @@ def welcome():
 @app.route("/", methods=["GET", "POST"])
 def home():
 	if 'usern' in session:
-		return render_template("home.html")
+		d = {}
+		d['user'] = user.User(session['usern'])
+		t = tag.Tag()
+		d['user'].tags.append(t)
+		b = bookmark.Bookmark()
+		b.link = "http://google.com"
+		b.title = "Googggggggle"
+		t.bookmarks.append(b)
+		b.tags.append(t)
+		return render_template("home.html", d=d)
 	
 	return redirect(url_for("welcome"))
 
