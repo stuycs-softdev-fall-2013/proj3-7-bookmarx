@@ -1,6 +1,6 @@
 // set up sortables as sortables
 $(function() {
-	var sortables = $("#sortable")
+	var sortables = $(".sortable")
 	sortables.sortable();
 	sortables.disableSelection();
 

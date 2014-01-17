@@ -3,9 +3,9 @@
 {% block head %}
   {{ super() }}
   <style>
-    #sortable { list-style-type: none; margin: 0; padding: 0; width: 20%; }
-    #sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 18px; }
-    #sortable li span { position: absolute; margin-left: -1.3em; }
+    .sortable { list-style-type: none; margin: 0; padding: 0; width: 20%; }
+    .sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 18px; }
+    .sortable li span { position: absolute; margin-left: -1.3em; }
   </style>
   <script src="{{ url_for('static', filename='js/home.js') }}"></script>
   {% endblock %}
@@ -15,7 +15,7 @@
   {% for tag in d['user'].tags %}
   <div class="tag well">
     <h3>{{ tag.name }}</h3>
-    <ul id="sortable">
+    <ul class="sortable">
       {% for bookmark in tag.bookmarks %}
       <li class='ui-state-default'><a href="{{ bookmark.link }}">{{ bookmark.title }}</a></li>
       {% endfor %}
