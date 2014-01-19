@@ -1,6 +1,9 @@
 from flask import Flask
 from flask import render_template, url_for, request, session, redirect
 from models import user, tag, bookmark
+from models.user import User
+from models.tag import Tag
+from models.bookmark import Bookmark
 
 app = Flask(__name__)
 app.secret_key = "wacky potato fingers"
@@ -13,21 +16,21 @@ def welcome():
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-	if 'usern' in session:
-		d = {}
-		d['user'] = user.User(session['usern'])
-		t = tag.Tag()
-		d['user'].tags.append(t)
-		b = bookmark.Bookmark()
-		b.link = "http://google.com"
-		b.title = "Googggggggle"
-		t.bookmarks.append(b)
-		b.tags.append(t)
-		t.unload()
-		b.unload()
-		return render_template("home.html", d=d)
-	
-	return redirect(url_for("welcome"))
+	if 'usern' not in session:
+	    return redirect(url_for("welcome"))
+
+	d = {}
+	d['user'] = user.User(session['usern'])
+	t = tag.Tag()
+	d['user'].tags.append(t)
+	b = bookmark.Bookmark()
+	b.link = "http://google.com"
+	b.title = "Googggggggle"
+	t.bookmarks.append(b)
+	b.tags.append(t)
+	t.unload()
+	b.unload()
+	return render_template("home.html", d=d)
 
 @app.route("/login", methods=["POST"])
 def login():
