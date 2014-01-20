@@ -11,7 +11,8 @@ app.secret_key = "wacky potato fingers"
 def welcome():
     if 'user_id' in session:
         return redirect(url_for('home'))
-    return render_template("welcome.html")
+    d = { 'logged_in' : False }
+    return render_template("welcome.html", d=d)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -19,6 +20,7 @@ def home():
         return redirect(url_for("welcome"))
 
     d = {}
+    d['logged_in'] = True
     d['user'] = User(session['user_id'])
     return render_template("home.html", d=d)
 
@@ -40,7 +42,8 @@ def register():
     if 'user_id' not in session:
         return redirect(url_for('welcome'))
     if request.method == "GET":
-        return render_template("register.html")
+        d = { 'logged_in' : False }
+        return render_template("register.html", d=d)
 
     user = User(session['user_id'])
     user.username = request.form['usern']
