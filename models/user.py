@@ -19,3 +19,6 @@ class User(Model):
       self.followed = data['followed']
   def unload(self):
     database.setUser(self)
+  def addTag(self, tag):
+    tag.creator = self.user_id
+    self.tags.append(tag.idnum, tag.name, tag.description, tag.color, tag.creator, tag.privacy)

@@ -1,8 +1,8 @@
 import sqlite3
 
 userFields = ["username","user_id"]
-tagFields = ["name", "description", "color", "creator", "privacy"]
-bookmarkFields = ["link", "title"]
+tagFields = ["id", "name", "description", "color", "creator", "privacy"]
+bookmarkFields = ["id", "link", "title"]
 
 ################################ GET FUNCTIONS #################################
 #Get functions return None if the entry doesn't exist
@@ -76,7 +76,7 @@ def getBookmark(idnum):
 ############################### SET FUNCTIONS #################################
 
 def setUser(user):
-    info = [user.username, user.user_id, user.tags, user.followed, user.friends]
+    info = [user.username, user.user_id, user.tags, user.followed_tags, user.friends]
 
     # get relevant user
     connection = sqlite3.connect('marx.db')
@@ -104,9 +104,9 @@ def setUser(user):
 
     # update relevant followings
     connection.execute("delete from followings where followings.user=?", [username])
-    for i in range(len(user.followed)):
+    for i in range(len(user.followed_tags)):
         q = "insert into followings values(?,?)"
-        connection.execute(q, [username, followed[i][0]])
+        connection.execute(q, [username, followed_tags[i][0]])
     
     # update relevant friendships
     connection.execute("delete from friendships where friendships.user1=?",
@@ -134,18 +134,18 @@ def setTag(tag):
         connection.commit()
         return
 
-    for i in range(len(tagFields) ):
+    for i in range(len(tagFields)):
         if results[0][i] != info[i]:
             q = "update tags set %s=? where id=?"%(tagFields[i])
             cursor = connection.execute(q, [info[i],idnum])
     q = "delete from taggings where tag=?"
 
-    for i in range(0,len(bookmarks)):
+    for i in range(len(tag.bookmarks)):
         q = "insert into taggings values(?,?)"
         try:
-            cursor = connection.execute(q, [idnum,bookmarks[i].idnum])
+            connection.execute(q, [tag.idnum,tag.bookmarks[i].idnum])
         except:
-            cursor = connection.execute(q, [idnum,bookmarks[i][0]])
+            connection.execute(q, [tag.idnum,tag.bookmarks[i][0]])
             print "FUCK"
     connection.commit()
 
@@ -158,12 +158,13 @@ def setBookmark(bookmark):
     cursor = connection.execute("select * from bookmarks where id=?", [bookmark.idnum])
     results = [line for line in cursor]
     if not results:
+        idnum = len([l for l in connection.execute("select * from tags")])
         q = "insert into bookmarks values(?,?,?)"
         connection.execute(q, [bookmark.idnum] + info[:2])
         connection.commit()
         return
 
-    for i in range(len(bookmarkFields)):
+    for i in range(len(bookmarkFields[:-1])):
         if results[0][i] != info[i]:
             q = "update bookmarks set %s=? where id=?"%(bookmarkFields[i])
             cursor = connection.execute(q, [info[i], bookmark.idnum])
