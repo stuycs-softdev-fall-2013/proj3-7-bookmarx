@@ -24,3 +24,6 @@ class User(Model):
   def addTag(self, tag):
     tag.creator = self.user_id
     self.tags.append(tag)
+  def addBookmark(self, bookmark):
+    bookmark.creator = self.user_id
+    self.load()

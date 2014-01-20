@@ -22,6 +22,8 @@ def home():
     d = {}
     d['logged_in'] = True
     d['user'] = User(session['user_id'])
+    for bookmark in d['user'].untagged:
+        print bookmark
     return render_template("home.html", d=d)
 
 @app.route("/login", methods=["POST"])
