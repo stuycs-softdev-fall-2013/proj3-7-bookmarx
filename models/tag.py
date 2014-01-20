@@ -9,8 +9,8 @@ class Tag(Model):
   creator = None # User who created the tag
   privacy = "private" # We probably want something more like an enum here, FIXME
   bookmarks = [] # Bookmarks with this tag
-  def __init__(self, idnumber=-1):
-    self.idnum = idnumber
+  def __init__(self, name, idnumber=-1):
+    self.name = name
     super(Tag, self).__init__()
   def __repr__(self):
     return "<Tag %d>"%(self.idnum)
