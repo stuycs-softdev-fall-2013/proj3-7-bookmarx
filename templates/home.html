@@ -26,8 +26,19 @@
     <input class="bookmark-form-input" placeholder="Link"></input>
     <br>
     <a id="make-bookmark" class="btn btn-success btn-xs">Create</a>
-  </form>>
   <br></br>
+  </form>
+  <div class="tag well">
+    <h3>Untagged</h3>
+    <ul class="sortable">
+      {% for bookmark in d['user'].untagged %}
+      <li class='ui-state-default'><a href="{{ bookmark.link }}">
+        {{ bookmark.name }} {{bookmark.id}}
+      </a></li>
+      {% endfor %}
+    </ul>
+    <button class="btn btn-danger btn-xs">X</button>
+  </div>
   {% for tag in d['user'].tags %}
   <div class="tag well">
     <h3>{{ tag.name }} {{ tag.idnum }}</h3>

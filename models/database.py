@@ -2,7 +2,7 @@ import sqlite3
 
 userFields = ["username","user_id"]
 tagFields = ["id", "name", "description", "color", "creator", "privacy"]
-bookmarkFields = ["id", "link", "title", "creator"]
+bookmarkFields = ["id", "link", "title", "creator", "num_tags"]
 
 ################################ GET FUNCTIONS #################################
 #Get functions return None if the entry doesn't exist
@@ -18,7 +18,7 @@ def getUser(user_id):
         return None
 
     # returning user
-    results = { username: matching_users[0][0] }
+    results = { 'username' : matching_users[0][0] }
 
     # get tags created
     connection.execute("select * from tags where creator=?", [user_id])
@@ -34,6 +34,11 @@ def getUser(user_id):
         "tags.id=followings.tag"
     cursor = connection.execute(q, [user_id])
     results['followed'] = [line for line in cursor]
+
+    # get untagged bookmarks
+    q = "select * from bookmarks where creator=? and num_tags=0"
+    cursor = connection.execute(q, [user_id])
+    results['untagged'] = [line for line in cursor]
 
     return results
 
@@ -97,15 +102,16 @@ def setUser(user):
             connection.execute(q, [info[i], user.user_id])
 
     # update relevant tags
-    connection.execute("delete from tags where tags.creator=?", [username])
+    connection.execute("delete from tags where tags.creator=?", [user.user_id])
     for i in range(len(user.tags)):
         connection.execute("insert into tags values(?,?,?,?,?,?)", [tags[i][:6]])
 
     # update relevant followings
-    connection.execute("delete from followings where followings.user=?", [username])
+    q = "delete from followings where followings.user=?"
+    connection.execute(q, [user.user_id])
     for i in range(len(user.followed_tags)):
         q = "insert into followings values(?,?)"
-        connection.execute(q, [username, followed_tags[i][0]])
+        connection.execute(q, [user.username, followed_tags[i][0]])
     
     # update relevant friendships
     connection.execute("delete from friendships where friendships.user1=?",
@@ -114,8 +120,8 @@ def setUser(user):
                        [user.user_id])
     for i in range(len(user.friends)):
         q = "insert into friendships values(?,?)"
-        connection.execute(q, [username, friends[i][0]])
-        connection.execute(q, [friends[i][0], username])
+        connection.execute(q, [user.username, friends[i][0]])
+        connection.execute(q, [friends[i][0], user.username])
     connection.commit()
 
 
@@ -151,14 +157,14 @@ def setTag(tag):
 
 def setBookmark(bookmark):
     idnum = bookmark.idnum
-    info = [bookmark.link, bookmark.title, bookmark.creator]
+    info = [bookmark.link, bookmark.title, bookmark.creator, len(bookmark.tags)]
     connection = sqlite3.connect('marx.db')
 
     cursor = connection.execute("select * from bookmarks where id=?", [bookmark.idnum])
     results = [line for line in cursor]
     if not results:
         idnum = len([l for l in connection.execute("select * from tags")])
-        connection.execute("insert into bookmarks values(?,?,?,?)", [idnum] + info)
+        connection.execute("insert into bookmarks values(?,?,?,?,?)", [idnum] + info)
         connection.commit()
         return
 

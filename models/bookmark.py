@@ -22,3 +22,6 @@ class Bookmark(Model):
       self.creator = variables[4]
   def unload(self):
     database.setBookmark(self)
+  def addTag(self, tag):
+    self.tags.append(tag)
+    tag.bookmarks.append(self)

@@ -47,14 +47,8 @@ def register():
 
     user = User(session['user_id'])
     user.username = request.form['usern']
-    t = Tag("Search engines")
-    user.tags.append(t)
     b = Bookmark("Google", "http://google.com")
-    b.tags.append(t)
-    t.bookmarks.append(b)
-    b.unload()
-    t.unload()
-    user.unload()
+    b.creator = user.user_id
     return redirect(url_for('home'))
 
 @app.route("/logout")

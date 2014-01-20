@@ -7,18 +7,20 @@ class User(Model):
   tags = []
   friends = []
   followed_tags = []
-  def __init__(self, token):
-    self.token = token
+  untagged = []
+  def __init__(self, user_id):
+    self.user_id = user_id
     self.load()
   def load(self):
-    data = database.getUser(self.token)
+    data = database.getUser(self.user_id)
     if data:
-      self.name = data['username']
+      self.username = data['username']
       self.tags = data['tags']
       self.friends = data['friends']
       self.followed = data['followed']
+      self.untagged = data['untagged']
   def unload(self):
     database.setUser(self)
   def addTag(self, tag):
     tag.creator = self.user_id
-    self.tags.append(tag.idnum, tag.name, tag.description, tag.color, tag.creator, tag.privacy)
+    self.tags.append(tag)
