@@ -1,11 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Register{% endblock%}
 {% block content %}
-  <center>
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">  
     <h3> What would you like to be called? </h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
     <form method="POST">
       <input type="text" name="usern" placeholder="Username"/>
       <input type="submit" class="btn btn-primary btn-sm"/>
     </form>
-  </center>
+  </div>
+</div>
 {% endblock %}
