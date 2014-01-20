@@ -4,14 +4,15 @@
   {{ super() }}
   <style>
     #sortable { list-style-type: none; margin: 0; padding: 0; width: 30%; }
-    #sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 18px; }
+    #sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 25px; }
     #sortable li span { position: absolute; margin-left: -1.3em; }
   </style>
   <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-  <button class="btn btn-success btn-xs">+</button>
+  <button class="btn btn-success btn-xs">Add bookmark</button>
+  <br></br>
   {% for tag in d['user'].tags %}
   <div class="tag well">
     <h3>{{ tag.name }} {{ tag.idnum }}</h3>
@@ -22,7 +23,7 @@
       </a></li>
       {% endfor %}
     </ul>
-    <button class="btn btn-danger btn-xs">X</button>
+    <button class="btn btn-danger btn-xs">Delete tag</button>
   </div>
   {% endfor %}
 
