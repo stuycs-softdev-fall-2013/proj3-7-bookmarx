@@ -8,9 +8,9 @@
     .sortable li span { position: absolute; margin-left: -1.3em; }
   </style>
   <script src="{{ url_for('static', filename='js/home.js') }}"></script>
-  {% endblock %}
+{% endblock %}
 
-  {% block content %}
+{% block content %}
   <button class="btn btn-success btn-xs">+</button>
   {% for tag in d['user'].tags %}
   <div class="tag well">
@@ -26,4 +26,4 @@
 
   <br>
   <a href="{{ url_for('logout') }}"> Log out </a>
-  {% endblock %}
+{% endblock %}
