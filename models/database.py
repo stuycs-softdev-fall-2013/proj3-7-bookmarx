@@ -2,7 +2,7 @@ import sqlite3
 
 userFields = ["username","user_id"]
 tagFields = ["id", "name", "description", "color", "creator", "privacy"]
-bookmarkFields = ["id", "link", "title"]
+bookmarkFields = ["id", "link", "title", "creator"]
 
 ################################ GET FUNCTIONS #################################
 #Get functions return None if the entry doesn't exist
@@ -64,7 +64,7 @@ def getBookmark(idnum):
         results = [line for line in results[0]]
         q = "select tags.* from tags,taggings where taggings.bookmark=? and " + \
             "taggings.tag=tags.id"
-        cursor = connection.execute(q, [str(idnum)])
+        cursor = connection.execute(q, [idnum])
         tags = [line for line in cursor]
         results.append(tags)
         return results
@@ -151,21 +151,20 @@ def setTag(tag):
 
 def setBookmark(bookmark):
     idnum = bookmark.idnum
-    info = [bookmark.link, bookmark.title, bookmark.tags]
+    info = [bookmark.link, bookmark.title, bookmark.creator]
     connection = sqlite3.connect('marx.db')
 
     cursor = connection.execute("select * from bookmarks where id=?", [bookmark.idnum])
     results = [line for line in cursor]
     if not results:
         idnum = len([l for l in connection.execute("select * from tags")])
-        q = "insert into bookmarks values(?,?,?)"
-        connection.execute(q, [idnum] + info[:2])
+        connection.execute("insert into bookmarks values(?,?,?,?)", [idnum] + info)
         connection.commit()
         return
 
-    for i in range(len(bookmarkFields[:-1])):
+    for i in range(len(bookmarkFields[1:])):
         if results[0][i] != info[i]:
-            q = "update bookmarks set %s=? where id=?"%(bookmarkFields[i])
+            q = "update bookmarks set %s=? where id=?"%(bookmarkFields[i+1])
             cursor = connection.execute(q, [info[i], bookmark.idnum])
 
     cursor = connection.execute("delete from taggings where bookmark=?", [idnum])

@@ -66,14 +66,15 @@ def logout():
 @app.route("/action", methods=["POST"])
 def action():
     if 'action' not in request.form:
-        return ""
+        return "error: no action"
 
     action = request.form['action']
     if action == 'make-bookmark':
         b = Bookmark(request.form['title'], request.form['link'])
+        b.creator = request.form['user_id']
         b.unload()
         print "make-bookmark %s %s"%(request.form['title'], request.form['link'])
-    return ""
+        return "Bookmark created."
 
 if __name__ == "__main__":
     app.debug = True

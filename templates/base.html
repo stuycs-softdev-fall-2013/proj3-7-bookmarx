@@ -22,6 +22,9 @@
       <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
       <script>
         var URL = window.location.origin + '/';
+        {% if d['logged_in'] %}
+          var user_id = "{{ d['user'].user_id }}";
+        {% endif %}
       </script>
     {% endblock %}
   </head>

@@ -13,7 +13,7 @@ $(function() {
         console.log("bookmark!");
         $.post(URL + "action", {
                 action : 'make-bookmark',
-                // FIXME send user_id
+                user_id : user_id,
                 title : inputs[0].value,
                 link : inputs[1].value
             }
