@@ -3,7 +3,8 @@
 {% block head %}
   {{ super() }}
   <style>
-    .sortable { list-style-type: none; margin: 0; padding: 0; width: 30%; }
+    .sortable { list-style-type: none; margin: 0; padding: 0; width: 30%;
+                height: 20px; }
     .sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 18px; }
     .sortable li span { position: absolute; margin-left: -1.3em; }
   </style>
@@ -11,7 +12,8 @@
 {% endblock %}
 
 {% block content %}
-  <button class="btn btn-success btn-xs">+</button>
+  <button id="make-bookmark" class="btn btn-success btn-xs">+</button>
+  <!--<button class="btn btn-success btn-xs">+</button>-->
   {% for tag in d['user'].tags %}
   <div class="tag well">
     <h3>{{ tag.name }}</h3>

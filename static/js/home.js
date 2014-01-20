@@ -1,16 +1,25 @@
 // set up sortables as sortables
 $(function() {
 	var sortables = $(".sortable")
-	sortables.sortable();
-	sortables.disableSelection();
+	    .sortable()
+        .disableSelection();
+    var formDropped = 0;
 
 	var makeBookmark = function() {
-		var sortables = $("#sortable")[0];
-		var bookmark = document.createElement("li");
-		name = $("#name")[0].value;
-		link = $("#link")[0].value;
-		bookmark.innerHTML = "<a href="+link+">"+name+"</a>";
-		sortables.appendChild(bookmark);
+	    if (formDropped != 1) {
+		    var form = $('<form id="bookmark-maker"></form>')
+		        .append($('<input placeholder="Title"></input>'))
+		        .append($('<br>'))
+		        .append($('<input placeholder="Link"></input>'))
+		        .append($('<br>'))
+		        .append($('<input type="submit"></input>'))
+		        .insertAfter('#make-bookmark')
+		    ;
+		    formDropped = 1;
+		} else {
+		    $('#bookmark-maker').remove();
+		    formDropped = 0;
+		}
 		// TODO: add ajax call to add bookmark to server
 	}
 
