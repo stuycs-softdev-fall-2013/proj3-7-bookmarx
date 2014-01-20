@@ -12,13 +12,13 @@
 {% endblock %}
 
 {% block content %}
-  <button id="make-bookmark" class="btn btn-success btn-xs">+</button>
+  <button id="toggle-bookmark-form" class="btn btn-success btn-xs">+</button>
   <form id="bookmark-form" hidden=true>
-    <input placeholder="Title"></input>
+    <input class="bookmark-form-input" placeholder="Title"></input>
     <br>
-    <input placeholder="Link"></input>
+    <input class="bookmark-form-input" placeholder="Link"></input>
     <br>
-    <a href="#" class="btn btn-success btn-xs">Create</a>
+    <a id="make-bookmark" class="btn btn-success btn-xs">Create</a>
   </form>
   <!--<button class="btn btn-success btn-xs">+</button>-->
   {% for tag in d['user'].tags %}

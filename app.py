@@ -46,7 +46,7 @@ def register():
     user.username = request.form['usern']
     t = Tag("Search engines")
     user.tags.append(t)
-    b = Bookmark("http://google.com", "Google")
+    b = Bookmark("Google", "http://google.com")
     b.tags.append(t)
     t.bookmarks.append(b)
     b.unload()
@@ -59,6 +59,18 @@ def logout():
     if 'user_id' in session:
         del session['user_id']
     return redirect(url_for('home'))
+
+@app.route("/action", methods=["POST"])
+def action():
+    if 'action' not in request.form:
+        return ""
+
+    action = request.form['action']
+    if action == 'make-bookmark':
+        b = Bookmark(request.form['title'], request.form['link'])
+        b.unload()
+        print "make-bookmark %s %s"%(request.form['title'], request.form['link'])
+    return ""
 
 if __name__ == "__main__":
     app.debug = True

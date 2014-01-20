@@ -6,14 +6,14 @@ class Bookmark(Model):
   tags = []
   link = "Default link"
   name = "Default Bookmark Title"
-  def __init__(self, link, title):
-    self.link = link
+  def __init__(self, title, link):
     self.title = title
+    self.link = link
     self.load()
   def __repr__(self):
     return "<Bookmark %d>"%(self.idnum)
   def load(self):
-    variables = database.getBookmark(self)
+    variables = database.getBookmark(self.idnum)
     if variables:
       self.link = variables[1]
       self.name = variables[2]

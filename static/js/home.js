@@ -6,7 +6,21 @@ $(function() {
 
 	var toggleBookmarkForm = function() {
         $('#bookmark-form').slideToggle();
-	}
+	};
 
-	$("#make-bookmark").click(toggleBookmarkForm);
+	var makeBookmark = function() {
+        var inputs = $(".bookmark-form-input");
+        console.log("bookmark!");
+        $.post(URL + "action", {
+                action : 'make-bookmark',
+                // FIXME send user_id
+                title : inputs[0].value,
+                link : inputs[1].value
+            }
+        );
+        toggleBookmarkForm();
+	};
+
+	$("#toggle-bookmark-form").click(toggleBookmarkForm);
+	$("#make-bookmark").click(makeBookmark);
 });

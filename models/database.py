@@ -58,8 +58,7 @@ def getTag(idnum):
 
 def getBookmark(idnum):
     connection = sqlite3.connect('marx.db')
-    q = "select * from bookmarks where id=?"
-    cursor = connection.execute(q, [str(idnum)])
+    cursor = connection.execute("select * from bookmarks where id=?", [idnum])
     results = [line for line in cursor]
     if len(results) == 1:
         results = [line for line in results[0]]
@@ -160,7 +159,7 @@ def setBookmark(bookmark):
     if not results:
         idnum = len([l for l in connection.execute("select * from tags")])
         q = "insert into bookmarks values(?,?,?)"
-        connection.execute(q, [bookmark.idnum] + info[:2])
+        connection.execute(q, [idnum] + info[:2])
         connection.commit()
         return
 
