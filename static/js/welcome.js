@@ -29,8 +29,7 @@ var getUserInfo = function() {
 var redirectUser = function(user) {
 	var user_id = user.id;
 	$().redirect(URL + 'login', {
-		usern : 'PLACEHOLDER', // TODO add usern handling (requires db)
-		user_id : "g" + user_id
+		user_id : "g" + user_id,
 	});
 }
 
@@ -51,7 +50,6 @@ window.fbAsyncInit = function() {
 		}
 		if (response.status === 'connected') {
 			$().redirect(URL + 'login', {
-				usern : 'PLACEHOLDER', // TODO add usern handling (requires db)
 				user_id : "f" + response.authResponse.userID
 			});
 		} else {

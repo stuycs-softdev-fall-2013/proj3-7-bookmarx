@@ -9,7 +9,7 @@ queries = [
  "DROP TABLE IF EXISTS taggings",
  "DROP TABLE IF EXISTS friendships",
  "DROP TABLE IF EXISTS followings",
- "CREATE TABLE users(username TEXT, token TEXT)",
+ "CREATE TABLE users(username TEXT, user_id TEXT)",
  "CREATE TABLE tags(id INTEGER, name TEXT, description TEXT, color TEXT, creator TEXT, privacy TEXT)",
  "CREATE TABLE bookmarks(id INTEGER, link TEXT, title TEXT)",
  "CREATE TABLE taggings(bookmark INTEGER, tag INTEGER)",

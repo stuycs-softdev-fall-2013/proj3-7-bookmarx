@@ -16,7 +16,7 @@ class Tag(Model):
     return "<Tag %d>"%(self.idnum)
   def load(self):
     variables = database.getTag(self.idnum)
-    if variables != 0:
+    if variables:
       self.name = variables[1]
       self.description = variables[2]
       self.color = variables[3]
@@ -24,4 +24,4 @@ class Tag(Model):
       self.privacy = variables[5]
       self.bookmarks = variables[6]
   def unload(self):
-    database.setTag(self.idnum,self.name,self.description,self.color,self.creator,self.privacy,self.bookmarks)
+    database.setTag(self)

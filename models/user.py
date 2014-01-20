@@ -2,22 +2,20 @@ from model import Model
 import database
 
 class User(Model):
-  username = "Default Username"
-  token = "No token"
+  username = None
+  user_id = None
   tags = []
   friends = []
   followed_tags = []
-  def __init__(self, name):
-    self.username = name
-    super(User, self).__init__()
-  def __repr__(self):
-    return "<User %s>"%(self.token)
+  def __init__(self, token):
+    self.token = token
+    self.load()
   def load(self):
-    variables = database.getUser(self.username)
-    if variables != 0:
-      self.token = variables[1]
-      self.tags = variables[2]
-      self.friends = variables[3]
-      self.followed = variables[4]
+    data = database.getUser(self.token)
+    if data:
+      self.name = data['username']
+      self.tags = data['tags']
+      self.friends = data['friends']
+      self.followed = data['followed']
   def unload(self):
-    database.setUser(self.username,self.token,self.tags,self.followed,self.friends)
+    database.setUser(self)
