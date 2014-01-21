@@ -5,7 +5,7 @@ class Bookmark(Model):
   idnum = -1
   tags = []
   link = "Default link"
-  name = "Default Bookmark Title"
+  title = "Default Bookmark Title"
   def __init__(self, link, title):
     self.link = link
     self.title = title
