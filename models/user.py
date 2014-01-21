@@ -5,7 +5,7 @@ class User(Model):
   username = None
   user_id = None
   tags = []
-  friends = []
+  friends = []#This will only contain the usernames of friends
   followed_tags = []
   def __init__(self, token):
     self.token = token

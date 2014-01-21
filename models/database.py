@@ -21,8 +21,8 @@ def getUser(user_id):
     results = { username: matching_users[0][0] }
 
     # get tags created
-    connection.execute("select * from tags where creator=?", [user_id])
-    results['tags'] = [line for line in cursor]
+    connection.execute("select id from tags where creator=?", [user_id])
+    results['tags'] = [Tag(tagID) for tagID in cursor]
 
     # get friends
     q = "select user2 from friendships where user1=?"
@@ -30,10 +30,10 @@ def getUser(user_id):
     results['friends'] = [line for line in cursor]
 
     # get followed tags
-    q = "select tags.* from tags,followings where followings.user=? and " + \
+    q = "select tags.id from tags,followings where followings.user=? and " + \
         "tags.id=followings.tag"
     cursor = connection.execute(q, [user_id])
-    results['followed'] = [line for line in cursor]
+    results['followed'] = [Tag(tagID) for tagID in cursor]
 
     return results
 
@@ -49,7 +49,7 @@ def getTag(idnum):
         q = "select bookmarks.* from bookmarks,taggings where taggings.tag=? and " + \
             "taggings.bookmark=bookmarks.id"
         cursor = connection.execute(q, [str(idnum)])
-        bookmarks = [line for line in cursor]
+        bookmarks = [Bookmark(b[1],b[2]) for b in cursor]
         results.append(bookmarks)
         return results
     else:
@@ -63,10 +63,15 @@ def getBookmark(idnum):
     results = [line for line in cursor]
     if len(results) == 1:
         results = [line for line in results[0]]
-        q = "select tags.* from tags,taggings where taggings.bookmark=? and " + \
+        q = "select tags.name,tags.id,tags.color from tags,taggings where taggings.bookmark=? and " + \
             "taggings.tag=tags.id"
         cursor = connection.execute(q, [str(idnum)])
         tags = [line for line in cursor]
+
+        #put colors into proper format
+        for tag in tags:
+            tag[2] = tag[2].split(" ")
+
         results.append(tags)
         return results
     else:
@@ -97,10 +102,11 @@ def setUser(user):
             q = "update users set %s=? where user_id=?"%(userFields[i])
             connection.execute(q, [info[i], user.user_id])
 
-    # update relevant tags
-    connection.execute("delete from tags where tags.creator=?", [username])
-    for i in range(len(user.tags)):
-        connection.execute("insert into tags values(?,?,?,?,?,?)", [tags[i][:6]])
+#Tags shouldn't need to be updated from user context
+    ##update relevant tags
+    #connection.execute("delete from tags where tags.creator=?", [username])
+    #for i in range(len(user.tags)):
+    #    connection.execute("insert into tags values(?,?,?,?,?,?)", [tags[i][:6]#])
 
     # update relevant followings
     connection.execute("delete from followings where followings.user=?", [username])
