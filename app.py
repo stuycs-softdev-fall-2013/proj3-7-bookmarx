@@ -68,7 +68,6 @@ def action():
     if action == 'make-bookmark':
         b = Bookmark(request.form['title'], request.form['link'])
         b.creator = request.form['user_id']
-        b.unload()
         print "make-bookmark %s %s"%(request.form['title'], request.form['link'])
         return "Bookmark created."
 

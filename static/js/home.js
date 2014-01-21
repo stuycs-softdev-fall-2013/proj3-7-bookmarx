@@ -19,6 +19,15 @@ $(function() {
             }
         );
         toggleBookmarkForm();
+
+        // show new bookmark
+        var bookmark = $("<li></li>")
+            .addClass("ui-selector-all")
+            .html($("<a></a>")
+                .attr('href', inputs[1].value)
+                .val(inputs[0].value)
+            );
+        $(".untagged").append(bookmark);
 	};
 
 	$("#toggle-bookmark-form").click(toggleBookmarkForm);
