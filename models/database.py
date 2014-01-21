@@ -18,7 +18,7 @@ def getUser(user_id):
         return None
 
     # returning user
-    results = { username: matching_users[0][0] }
+    results = { 'username': matching_users[0][0] }
 
     # get tags created
     connection.execute("select id from tags where creator=?", [user_id])
