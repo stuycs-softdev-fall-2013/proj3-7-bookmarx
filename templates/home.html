@@ -7,6 +7,18 @@
                 height: 20px; }
     .sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 25px; }
     .sortable li span { position: absolute; margin-left: -1.3em; }
+    .alignleft {
+      float: left;
+      width:50%;
+      height:16px;
+      text-align:left;
+    }
+    .alignright {
+      float: left;
+      width:50%;
+      height:16px;
+      text-align:right;
+    }
   </style>
   <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}
@@ -34,10 +46,14 @@
       {% for bookmark in d['user'].untagged %}
         <li class='ui-state-default'>
           <span class="bookmark-id">{{ bookmark[0] }}</span>
-          <a href="{{ bookmark[1] }}">
-            {{ bookmark[2] }}
-         </a>
-          <a href="#" class="remove-bookmark glyphicon glyphicon-remove-circle"></a>
+          <p class="alignleft">
+            <a href="{{ bookmark[1] }}">
+              {{ bookmark[2] }}
+            </a>
+          </p>
+          <p class="alignright">
+            <a href="#" class="remove-bookmark glyphicon glyphicon-remove-circle"></a>
+          </p>
         </li>
       {% endfor %}
     </ul>

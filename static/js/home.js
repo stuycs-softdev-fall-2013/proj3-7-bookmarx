@@ -50,16 +50,16 @@ $(function() {
 	};
 
   var removeBookmark = function(event) {
-    var elt = event.target.parentElement;
+    var li = event.target.parentElement.parentElement;
 
     // Resize the well
-    var well = elt.parentElement.parentElement;
+    var well = li.parentElement.parentElement;
     well.style.height = parseInt(well.style.height) - 28 + "px";
 
     // Remove the clicked item from the list 
-    elt.parentElement.removeChild(elt);
+    li.parentElement.removeChild(li);
 
-    var bookmark_id = $(elt).find(".bookmark-id")[0].innerText;
+    var bookmark_id = $(li).find(".bookmark-id")[0].innerText;
     // AJAX in the haus
     $.post(URL + "action", {
         action : 'remove-bookmark',
