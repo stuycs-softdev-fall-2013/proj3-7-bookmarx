@@ -22,12 +22,15 @@ $(function() {
 
         // show new bookmark
         var bookmark = $("<li></li>")
-            .addClass("ui-selector-all")
+            .addClass("ui-state-default")
             .html($("<a></a>")
                 .attr('href', inputs[1].value)
-                .val(inputs[0].value)
-            );
+            )[0];
+        console.log(bookmark);
+        bookmark.firstChild.innerText = inputs[0].value;
         $(".untagged").append(bookmark);
+	    var well = $(".untagged")[0].parentElement;
+	    well.style.height = parseInt(well.style.height) + 28 + "px";
 	};
 
 	$("#toggle-bookmark-form").click(toggleBookmarkForm);
