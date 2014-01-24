@@ -61,7 +61,8 @@ def getTag(idnum):
         return None
 
 
-def getBookmark(idnum):
+def getBookmark(bookmark):
+    idnum = bookmark.idnum
     connection = sqlite3.connect('marx.db')
     cursor = connection.execute("select * from bookmarks where id=?", [idnum])
     results = [line for line in cursor]
@@ -74,7 +75,9 @@ def getBookmark(idnum):
         results.append(tags)
         return results
     else:
-        return None
+        setBookmark(bookmark)
+        idnum = len([l for l in connection.execute("select * from bookmarks")])
+        return [idnum]
 
 
 ############################### SET FUNCTIONS #################################
@@ -163,7 +166,7 @@ def setBookmark(bookmark):
     cursor = connection.execute("select * from bookmarks where id=?", [bookmark.idnum])
     results = [line for line in cursor]
     if not results:
-        idnum = len([l for l in connection.execute("select * from tags")])
+        idnum = len([l for l in connection.execute("select * from bookmarks")])
         connection.execute("insert into bookmarks values(?,?,?,?,?)", [idnum] + info)
         connection.commit()
         return

@@ -70,7 +70,7 @@ def action():
         b = Bookmark(request.form['title'], request.form['link'])
         b.creator = request.form['user_id']
         print "make-bookmark %s %s"%(request.form['title'], request.form['link'])
-        return "Bookmark created."
+        return str(b.idnum)
     elif action == 'remove-bookmark':
         database.removeBookmark(request.form['bookmark_id'])
         print "remove-bookmark %s"%request.form['bookmark_id']

@@ -9,28 +9,44 @@ $(function() {
 	};
 
 	var makeBookmark = function() {
+        // show new bookmark
         var inputs = $(".bookmark-form-input");
         console.log("bookmark!");
+        var bookmark = $("<li></li>")
+            .addClass("ui-state-default")
+            .append($("<a></a>")
+                .attr('href', inputs[1].value)
+            );
+        bookmark[0].firstChild.innerText = inputs[0].value;
+        $(".untagged").append(bookmark[0]);
+
+        // resize well to fit new element
+	    var well = $(".untagged")[0].parentElement;
+	    well.style.height = parseInt(well.style.height) + 28 + "px";
+
         $.post(URL + "action", {
                 action : 'make-bookmark',
                 user_id : user_id,
                 title : inputs[0].value,
-                link : inputs[1].value
+                link : inputs[1].value,
+                dataType : "text"
             }
-        );
+        ).done(function(d) {
+            bookmark.append($("<span></span>")
+                .addClass("bookmark-id")
+                .html(d)
+            );
+        })
+
+        // Add the remove bookmark button
+        bookmark.append($("<a></a>")
+          .addClass("remove-bookmark")
+          .addClass("glyphicon")
+          .addClass("glyphicon-remove-circle")
+          .attr("href", "#")
+          .click(removeBookmark)[0]);
         toggleBookmarkForm();
 
-        // show new bookmark
-        var bookmark = $("<li></li>")
-            .addClass("ui-state-default")
-            .html($("<a></a>")
-                .attr('href', inputs[1].value)
-            )[0];
-        console.log(bookmark);
-        bookmark.firstChild.innerText = inputs[0].value;
-        $(".untagged").append(bookmark);
-	    var well = $(".untagged")[0].parentElement;
-	    well.style.height = parseInt(well.style.height) + 28 + "px";
 	};
 
   var removeBookmark = function(event) {

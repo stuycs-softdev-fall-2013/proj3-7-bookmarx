@@ -17,8 +17,10 @@ class Bookmark(Model):
   def __repr__(self):
     return "<Bookmark %d>"%(self.idnum)
   def load(self):
-    variables = database.getBookmark(self.idnum)
-    if variables:
+    variables = database.getBookmark(self)
+    if len(variables) == 1:
+      self.idnum = variables[0]
+    else:
       self.link = variables[1]
       self.name = variables[2]
       self.tags = variables[3]
