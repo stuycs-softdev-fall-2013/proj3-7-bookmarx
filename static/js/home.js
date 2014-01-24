@@ -33,6 +33,27 @@ $(function() {
 	    well.style.height = parseInt(well.style.height) + 28 + "px";
 	};
 
+  var removeBookmark = function(event) {
+    var elt = event.target.parentElement;
+
+    // Resize the well
+    var well = elt.parentElement.parentElement;
+    well.style.height = parseInt(well.style.height) - 28 + "px";
+
+    // Remove the clicked item from the list 
+    elt.parentElement.removeChild(elt);
+
+    var bookmark_id = $(elt).find(".bookmark-id")[0].innerText;
+    // AJAX in the haus
+    $.post(URL + "action", {
+        action : 'remove-bookmark',
+        user_id : user_id,
+        bookmark_id: bookmark_id
+      }
+    );
+  }
+
 	$("#toggle-bookmark-form").click(toggleBookmarkForm);
 	$("#make-bookmark").click(makeBookmark);
+	$(".remove-bookmark").click(removeBookmark);
 });

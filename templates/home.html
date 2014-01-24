@@ -32,9 +32,13 @@
     <h3>Untagged</h3>
     <ul class="sortable untagged">
       {% for bookmark in d['user'].untagged %}
-        <li class='ui-state-default'><a href="{{ bookmark[1] }}">
-          {{ bookmark[2] }}
-        </a></li>
+        <li class='ui-state-default'>
+          <span class="bookmark-id">{{ bookmark[0] }}</span>
+          <a href="{{ bookmark[1] }}">
+            {{ bookmark[2] }}
+          </a>
+          <a href="#" class="remove-bookmark glyphicon glyphicon-remove-circle"></a>
+        </li>
       {% endfor %}
     </ul>
   </div>
@@ -43,9 +47,12 @@
     <h3>{{ tag.name }}</h3>
     <ul id="sortable">
       {% for bookmark in tag.bookmarks %}
-        <li class='ui-state-default'><a href="{{ bookmark[1] }}">
-          {{ bookmark[2] }}
-        </a></li>
+        <li class='ui-state-default'>
+          <a href="{{ bookmark[1] }}">
+            {{ bookmark[2] }}
+          </a>
+          <a href="#" class="remove-bookmark glyphicon glyphicon-remove-circle"></a>
+        </li>
       {% endfor %}
     </ul>
     <button class="btn btn-danger btn-xs">Delete tag</button>

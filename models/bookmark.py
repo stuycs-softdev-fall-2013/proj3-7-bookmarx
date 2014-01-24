@@ -7,9 +7,12 @@ class Bookmark(Model):
   link = "Default link"
   name = "Default Bookmark Title"
   creator = "Default creator"
-  def __init__(self, title, link):
-    self.title = title
-    self.link = link
+  def __init__(self, title=None, link=None, idnum=None):
+    if idnum:
+      self.idnum = idnum
+    else:
+      self.title = title
+      self.link = link
     self.load()
   def __repr__(self):
     return "<Bookmark %d>"%(self.idnum)

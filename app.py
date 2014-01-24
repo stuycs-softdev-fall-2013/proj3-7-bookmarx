@@ -3,6 +3,7 @@ from flask import render_template, url_for, request, session, redirect
 from models.user import User
 from models.tag import Tag
 from models.bookmark import Bookmark
+import models.database as database
 
 app = Flask(__name__)
 app.secret_key = "wacky potato fingers"
@@ -70,6 +71,10 @@ def action():
         b.creator = request.form['user_id']
         print "make-bookmark %s %s"%(request.form['title'], request.form['link'])
         return "Bookmark created."
+    elif action == 'remove-bookmark':
+        database.removeBookmark(request.form['bookmark_id'])
+        print "remove-bookmark %s"%request.form['bookmark_id']
+        return "Bookmark removed"
 
 if __name__ == "__main__":
     app.debug = True
