@@ -3,7 +3,8 @@ import database
 
 class Bookmark(Model):
   idnum = -1
-  tags = []
+  tags = []#In order to avoid an infinite loop, this list contains
+           #tuples with the names, ids, and colors of each tag
   link = "Default link"
   title = "Default Bookmark Title"
   def __init__(self, link, title):
