@@ -49,23 +49,29 @@
     Add Bookmark
   </button>
   <div class="btn-group">
-    <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+    <button id="drop-tag-form" type="button"
+            class="btn btn-primary btn-sm dropdown-toggle"
             data-toggle="dropdown">
       Tag <span class="caret"/>
     </button>
-    <ul class="dropdown-menu dropdown-menu-form" role="menu">
-      {% for tag in range(d['user'].tags|count + 5) %}
-        <li>
+    <ul id="tag-form" class="dropdown-menu dropdown-menu-form" role="menu">
+      {% for tag in d['user'].tags %}
+        <li class="dropdown-tag">
+          <span class="dropdown-tag-id">{{ tag.id }}</span>
           <label type="checkbox">
-            <input type="checkbox">
+            <input type="checkbox" class="should-use-tag">
             Potato
           </label>
         </li>
       {% endfor %}
-      <input type="text"/>
+      <input id="new-tag-name" type="text"/>
       <li>
-        <button type="button" class="btn btn-success btn-sm">Tag</button>
-        <button type="button" class="btn btn-success btn-sm">Remove</button>
+        <button id="tag-add" type="button" class="btn btn-success btn-sm">
+          Tag
+        </button>
+        <button id="tag-remove" type="button" class="btn btn-success btn-sm">
+          Remove
+        </button>
       </li>
     </ul>
   </div>
@@ -77,7 +83,7 @@
     <a id="make-bookmark" class="btn btn-success btn-sm">Create</a>
   <br></br>
   </form>
-  <div class="tag well" style="height: {{ 85 + 28 * d['user'].untagged|count }}px;">
+  <div class="well" style="height: {{ 85 + 28 * d['user'].untagged|count }}px;">
     <h3>Untagged</h3>
     <ul class="sortable untagged">
       {% for bookmark in d['user'].untagged %}
@@ -97,19 +103,26 @@
     </ul>
   </div>
   {% for tag in d['user'].tags %}
-  <div class="tag well" style="height: {{ 85 + 28 * tag.bookmarks|count }}px;">
-    <h3>{{ tag.name }}</h3>
-    <ul id="sortable">
-      {% for bookmark in tag.bookmarks %}
-        <li class='ui-state-default'>
-          <a href="{{ bookmark[1] }}">
-            {{ bookmark[2] }}
-          </a>
-          <a href="#" class="remove-bookmark glyphicon glyphicon-remove-circle"></a>
-        </li>
-      {% endfor %}
-    </ul>
-    <button class="btn btn-danger btn-sm">Delete tag</button>
-  </div>
+    <div class="tag well" style="height: {{ 85 + 28 * tag.bookmarks|count }}px;">
+      <span class="tag-id">{{ tag.id }}</span>
+      <h3>{{ tag.name }}</h3>
+      <ul class="sortable">
+        {% for bookmark in tag.bookmarks %}
+          <li class='ui-state-default'>
+            <span class="bookmark-id">{{ bookmark[0] }}</span>
+            <p class="alignleft">
+              <input type="checkbox" class="should-tag">
+              <a href="{{ bookmark[1] }}">
+                {{ bookmark[2] }}
+              </a>
+            </p>
+            <p class="alignright">
+              <a href="#" class="remove-bookmark glyphicon glyphicon-remove-circle">
+              </a>
+            </p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   {% endfor %}
 {% endblock %}
