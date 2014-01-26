@@ -14,8 +14,11 @@ $(function() {
         console.log("bookmark!");
         var bookmark = $("<li></li>")
             .addClass("ui-state-default")
-            .append($("<a></a>")
-                .attr('href', inputs[1].value)
+            .append($("<p></p>")
+                .addClass("alignleft")
+                .append($("<a></a>")
+                    .attr('href', inputs[1].value)
+                )
             );
         bookmark[0].firstChild.innerText = inputs[0].value;
         $(".untagged").append(bookmark)[0];
@@ -38,12 +41,16 @@ $(function() {
             );
 
             // Add the remove bookmark button
-            bookmark.append($("<a></a>")
-              .addClass("remove-bookmark")
-              .addClass("glyphicon")
-              .addClass("glyphicon-remove-circle")
-              .attr("href", "#")
-              .click(removeBookmark)[0]);
+            bookmark.append($("<p></p>")
+                .addClass("alignright")
+                .append($("<a></a>")
+                    .addClass("remove-bookmark")
+                    .addClass("glyphicon")
+                    .addClass("glyphicon-remove-circle")
+                    .attr("href", "#")
+                    .click(removeBookmark)
+                )
+            );
             toggleBookmarkForm();
         })
 	};
