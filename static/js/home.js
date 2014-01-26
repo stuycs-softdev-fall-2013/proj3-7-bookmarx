@@ -18,7 +18,7 @@ $(function() {
                 .attr('href', inputs[1].value)
             );
         bookmark[0].firstChild.innerText = inputs[0].value;
-        $(".untagged").append(bookmark[0]);
+        $(".untagged").append(bookmark)[0];
 
         // resize well to fit new element
 	    var well = $(".untagged")[0].parentElement;
@@ -36,17 +36,16 @@ $(function() {
                 .addClass("bookmark-id")
                 .html(d)
             );
+
+            // Add the remove bookmark button
+            bookmark.append($("<a></a>")
+              .addClass("remove-bookmark")
+              .addClass("glyphicon")
+              .addClass("glyphicon-remove-circle")
+              .attr("href", "#")
+              .click(removeBookmark)[0]);
+            toggleBookmarkForm();
         })
-
-        // Add the remove bookmark button
-        bookmark.append($("<a></a>")
-          .addClass("remove-bookmark")
-          .addClass("glyphicon")
-          .addClass("glyphicon-remove-circle")
-          .attr("href", "#")
-          .click(removeBookmark)[0]);
-        toggleBookmarkForm();
-
 	};
 
   var removeBookmark = function(event) {
