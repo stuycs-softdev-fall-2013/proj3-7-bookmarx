@@ -1,43 +1,53 @@
 // set up sortables as sortables
 $(function() {
-	var sortables = $(".sortable")
-	    .sortable()
+    var sortables = $(".sortable")
+        .sortable()
         .disableSelection();
 
-	var toggleBookmarkForm = function() {
+    var toggleBookmarkForm = function() {
         $('#bookmark-form').slideToggle();
-	};
+    };
 
-	var makeBookmark = function() {
+    var makeBookmark = function() {
         // show new bookmark
-        var inputs = $(".bookmark-form-input");
-        console.log("bookmark!");
+        var inputs = $(".bookmark-form-input"),
+            title = inputs[0].value,
+            link = inputs[1].value;
+
+        if (link.substring(0, 7) !== "http://") {
+            link = "http://" + link;
+        }
+        if (!isUrl(link)) {
+            alert("Please input a valid link");
+            return;
+        }
+
         var bookmark = $("<li></li>")
             .addClass("ui-state-default")
             .append($("<p></p>")
                 .addClass("alignleft")
                 .append($("<a></a>")
-                    .attr('href', inputs[1].value)
+                    .text(title)
+                    .attr('href', link)
                 )
             );
-        bookmark[0].firstChild.innerText = inputs[0].value;
         $(".untagged").append(bookmark)[0];
 
         // resize well to fit new element
-	    var well = $(".untagged")[0].parentElement;
-	    well.style.height = parseInt(well.style.height) + 28 + "px";
+        var well = $(".untagged")[0].parentElement;
+        well.style.height = parseInt(well.style.height) + 28 + "px";
 
         $.post(URL + "action", {
                 action : 'make-bookmark',
                 user_id : user_id,
-                title : inputs[0].value,
-                link : inputs[1].value,
+                title : title,
+                link : link,
                 dataType : "text"
             }
         ).done(function(d) {
             bookmark.append($("<span></span>")
                 .addClass("bookmark-id")
-                .html(d)
+                .text(d)
             );
 
             // Add the remove bookmark button
@@ -53,29 +63,35 @@ $(function() {
             );
             toggleBookmarkForm();
         })
-	};
+    };
 
-  var removeBookmark = function(event) {
-    var li = event.target.parentElement.parentElement;
+    var removeBookmark = function(event) {
+        var li = event.target.parentElement.parentElement;
 
-    // Resize the well
-    var well = li.parentElement.parentElement;
-    well.style.height = parseInt(well.style.height) - 28 + "px";
+        // Resize the well
+        var well = li.parentElement.parentElement;
+        well.style.height = parseInt(well.style.height) - 28 + "px";
 
-    // Remove the clicked item from the list 
-    li.parentElement.removeChild(li);
+        // Remove the clicked item from the list 
+        li.parentElement.removeChild(li);
 
-    var bookmark_id = $(li).find(".bookmark-id")[0].innerText;
-    // AJAX in the haus
-    $.post(URL + "action", {
-        action : 'remove-bookmark',
-        user_id : user_id,
-        bookmark_id: bookmark_id
-      }
-    );
-  }
+        var bookmark_id = $(li).find(".bookmark-id")[0].innerText;
+        // AJAX in the haus
+        $.post(URL + "action", {
+                action : 'remove-bookmark',
+                user_id : user_id,
+                bookmark_id: bookmark_id
+            }
+        );
+    }
 
-	$("#toggle-bookmark-form").click(toggleBookmarkForm);
-	$("#make-bookmark").click(makeBookmark);
-	$(".remove-bookmark").click(removeBookmark);
+    function isUrl(s) {
+        var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+        return regexp.test(s);
+    }
+    document.isUrl = isUrl;
+
+    $("#toggle-bookmark-form").click(toggleBookmarkForm);
+    $("#make-bookmark").click(makeBookmark);
+    $(".remove-bookmark").click(removeBookmark);
 });
