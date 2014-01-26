@@ -24,10 +24,6 @@ def getUser(user_id):
     connection.execute("select * from tags where creator=?", [user_id])
     results['tags'] = [line for line in cursor]
 
-    # get friends
-    q = "select user2 from friendships where user1=?"
-    connection.execute(q, [user_id])
-    results['friends'] = [line for line in cursor]
 
     # get followed tags
     q = "select tags.* from tags,followings where followings.user=? and " + \
@@ -83,7 +79,7 @@ def getBookmark(bookmark):
 ############################### SET FUNCTIONS #################################
 
 def setUser(user):
-    info = [user.username, user.user_id, user.tags, user.followed_tags, user.friends]
+    info = [user.username, user.user_id, user.tags, user.followed_tags]
 
     # get relevant user
     connection = sqlite3.connect('marx.db')
@@ -116,15 +112,7 @@ def setUser(user):
         q = "insert into followings values(?,?)"
         connection.execute(q, [user.username, followed_tags[i][0]])
     
-    # update relevant friendships
-    connection.execute("delete from friendships where friendships.user1=?",
-                       [user.user_id])
-    connection.execute("delete from friendships where friendships.user2=?",
-                       [user.user_id])
-    for i in range(len(user.friends)):
-        q = "insert into friendships values(?,?)"
-        connection.execute(q, [user.username, friends[i][0]])
-        connection.execute(q, [friends[i][0], user.username])
+   
     connection.commit()
 
 
@@ -190,8 +178,6 @@ def setBookmark(bookmark):
 def removeUser(username,tags):
     connection = sqlite3.connect('marx.db')
     cursor = connection.execute("delete from users where username=?",[username])
-    cursor = connection.execute("delete from friendships where user1=?",[username])
-    cursor = connection.execute("delete from friendships where user2=?",[username])
     cursor = connection.execute("delete from followings where user=?",[username])
     connection.commit()
     for tag in tags:

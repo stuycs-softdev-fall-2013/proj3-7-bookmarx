@@ -5,7 +5,6 @@ class User(Model):
   username = None
   user_id = None
   tags = []
-  friends = []
   followed_tags = []
   untagged = []
   def __init__(self, user_id):
@@ -16,7 +15,6 @@ class User(Model):
     if data:
       self.username = data['username']
       self.tags = data['tags']
-      self.friends = data['friends']
       self.followed = data['followed']
       self.untagged = data['untagged']
   def unload(self):
