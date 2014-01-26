@@ -5,8 +5,17 @@
   <style>
     .sortable { list-style-type: none; margin: 0; padding: 0; width: 30%;
                 height: 20px; }
-    .sortable li { margin: 0 3px 3px 3px; padding-left: 1.5em; font-size: 1.1em; height: 25px; }
-    .sortable li span { position: absolute; margin-left: -1.3em; }
+    .sortable li {
+      margin: 0 3px 3px 3px;
+      padding-left: 1.5em;
+      padding-right: 0.5em;
+      font-size: 1.1em;
+      height: 25px;
+     }
+    .sortable li span {
+      position: absolute;
+      margin-left: -1.3em;
+    }
     .alignleft {
       float: left;
       width:50%;
@@ -19,6 +28,11 @@
       height:16px;
       text-align:right;
     }
+    ul.dropdown-menu-form {
+      padding: 5px 10px 10px;
+      max-height: 300px;
+      overflow-y: scroll;
+    }
   </style>
   <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}
@@ -26,18 +40,41 @@
 {% block content %}
   <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-3"><button type="button" class="btn btn-warning btn-xs">Your Tags</button></div>
-    <div class="col-md-3"><button type="button" class="btn btn-warning btn-xs">Followed Tags</button></div>
-    <div class="col-md-3"><button type="button" class="btn btn-warning btn-xs">The People's Tags</button></div>
+    <div class="col-md-3"><button type="button" class="btn btn-warning btn-sm">Your Tags</button></div>
+    <div class="col-md-3"><button type="button" class="btn btn-warning btn-sm">Followed Tags</button></div>
+    <div class="col-md-3"><button type="button" class="btn btn-warning btn-sm">The People's Tags</button></div>
   </div>
   <br></br>
-  <button id="toggle-bookmark-form" class="btn btn-success btn-xs">Add Bookmark</button>
+  <button id="toggle-bookmark-form" class="btn btn-success btn-sm">
+    Add Bookmark
+  </button>
+  <div class="btn-group">
+    <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+            data-toggle="dropdown">
+      Tag <span class="caret"/>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-form" role="menu">
+      {% for tag in range(d['user'].tags|count + 5) %}
+        <li>
+          <label type="checkbox">
+            <input type="checkbox">
+            Potato
+          </label>
+        </li>
+      {% endfor %}
+      <input type="text"/>
+      <li>
+        <button type="button" class="btn btn-success btn-sm">Tag</button>
+        <button type="button" class="btn btn-success btn-sm">Remove</button>
+      </li>
+    </ul>
+  </div>
   <form id="bookmark-form" hidden=true>
     <input id="bookmark-title" class="bookmark-form-input" placeholder="Title"/>
     <br>
     <input id="bookmark-link" class="bookmark-form-input" placeholder="Link"/>
     <br>
-    <a id="make-bookmark" class="btn btn-success btn-xs">Create</a>
+    <a id="make-bookmark" class="btn btn-success btn-sm">Create</a>
   <br></br>
   </form>
   <div class="tag well" style="height: {{ 85 + 28 * d['user'].untagged|count }}px;">
@@ -47,6 +84,7 @@
         <li class='ui-state-default'>
           <span class="bookmark-id">{{ bookmark[0] }}</span>
           <p class="alignleft">
+            <input type="checkbox" class="should-tag">
             <a href="{{ bookmark[1] }}">
               {{ bookmark[2] }}
             </a>
@@ -71,7 +109,7 @@
         </li>
       {% endfor %}
     </ul>
-    <button class="btn btn-danger btn-xs">Delete tag</button>
+    <button class="btn btn-danger btn-sm">Delete tag</button>
   </div>
   {% endfor %}
 {% endblock %}

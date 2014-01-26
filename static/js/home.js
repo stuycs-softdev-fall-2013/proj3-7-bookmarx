@@ -101,4 +101,10 @@ $(function() {
     $(".remove-bookmark").click(removeBookmark);
     $("#bookmark-title").keypress(bookmarkKeyPress);
     $("#bookmark-link").keypress(bookmarkKeyPress);
+
+    $('.dropdown-menu').click(function(e) {
+        if($(this).hasClass('dropdown-menu-form')) {
+            e.stopPropagation();
+        }
+    });
 });
