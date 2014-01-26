@@ -85,13 +85,20 @@ $(function() {
         );
     }
 
-    function isUrl(s) {
-        var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    var isUrl = function (s) {
+        var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
         return regexp.test(s);
     }
-    document.isUrl = isUrl;
+
+    var bookmarkKeyPress = function(event) {
+        if (event.which === 13) { // \n
+            makeBookmark();
+        }
+    }
 
     $("#toggle-bookmark-form").click(toggleBookmarkForm);
     $("#make-bookmark").click(makeBookmark);
     $(".remove-bookmark").click(removeBookmark);
+    $("#bookmark-title").keypress(bookmarkKeyPress);
+    $("#bookmark-link").keypress(bookmarkKeyPress);
 });
