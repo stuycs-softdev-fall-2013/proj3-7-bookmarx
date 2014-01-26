@@ -13,6 +13,7 @@ def getUser(user_id):
     q = "select * from users where user_id=?"
     cursor = connection.execute(q, [user_id])
     matching_users = [line for line in cursor]
+    
 
     if not matching_users:
         return None
@@ -81,11 +82,18 @@ def getBookmark(bookmark):
 def setUser(user):
     info = [user.username, user.user_id, user.tags, user.followed_tags]
 
+    # if the username is a repeat or there is no username,
+    # return without doing anything
+    if user.repeat_username or user.username == None:
+        return
+
+
     # get relevant user
     connection = sqlite3.connect('marx.db')
     q = "select * from users where user_id=?"
     cursor = connection.execute(q, [user.user_id])
     matching_users = [line for line in cursor]
+
 
     # if there is no such user in the db, create one and return
     if not matching_users:
@@ -209,3 +217,15 @@ def removeBookmark(id):
     q = "delete from bookmarks where id=?"
     cursor = connection.execute(q,[id])
     connection.commit()
+
+
+def findIfRepeat(username):
+    connection = sqlite3.connect('marx.db')
+
+    q = "select * from users where username=?"
+    cursor = connection.execute(q, [username])
+    repeat_users = [line for line in cursor]
+    if not repeat_users:
+        return False
+    else:
+        return True

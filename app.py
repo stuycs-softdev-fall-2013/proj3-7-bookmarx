@@ -49,7 +49,8 @@ def register():
         return render_template("register.html", d=d)
 
     user = User(session['user_id'])
-    user.username = request.form['usern']
+    if not user.setUsername(request.form['usern']):
+        return redirect(url_for('register'))
     b = Bookmark("Google", "http://google.com")
     b.creator = user.user_id
     return redirect(url_for('home'))

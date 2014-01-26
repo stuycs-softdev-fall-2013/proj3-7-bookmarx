@@ -7,6 +7,7 @@ class User(Model):
   tags = []
   followed_tags = []
   untagged = []
+  repeat_username = False
   def __init__(self, user_id):
     self.user_id = user_id
     self.load()
@@ -25,3 +26,10 @@ class User(Model):
   def addBookmark(self, bookmark):
     bookmark.creator = self.user_id
     self.load()
+  def setUsername(self, username):
+    self.repeat_username = database.findIfRepeat(username)
+    if self.repeat_username:
+      return False
+    else:
+      self.username = username
+      return True
