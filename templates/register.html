@@ -3,6 +3,10 @@
 {% block content %}
   <center>
     <h3> What would you like to be called? </h3>
+    <br>
+    {% if repeat == 'True' %}
+    <font color="red">This username is already taken</font>
+    {% endif %}
     <form method="POST">
       <input type="text" name="usern" placeholder="Username"/>
       <input type="submit" class="btn btn-primary btn-sm"/>

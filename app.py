@@ -46,11 +46,12 @@ def register():
         return redirect(url_for('welcome'))
     if request.method == "GET":
         d = { 'logged_in' : False }
-        return render_template("register.html", d=d)
+        return render_template("register.html", d=d, repeat='False')
 
     user = User(session['user_id'])
     if not user.setUsername(request.form['usern']):
-        return redirect(url_for('register'))
+        d = { 'logged_in' : False }
+        return render_template("register.html", d=d, repeat='True')
     b = Bookmark("Google", "http://google.com")
     b.creator = user.user_id
     return redirect(url_for('home'))
