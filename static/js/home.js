@@ -30,7 +30,7 @@ $(function() {
                     .attr('type', 'checkbox')
                     .addClass("should-tag")
                 ).append($("<a></a>")
-                    .text(title)
+                    .text("  " + title)
                     .attr('href', link)
                 )
             );
