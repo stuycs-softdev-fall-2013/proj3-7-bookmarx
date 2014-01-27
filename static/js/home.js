@@ -100,7 +100,6 @@ $(function() {
     }
 
     var tagAction = function(event) {
-        console.log(arguments);
         var bookmarks = $(".ui-state-default");
         for (var i = 0; i < bookmarks.length; i++) {
             var checkbox = $(bookmarks[i]).find(".should-tag")[0];
@@ -145,6 +144,7 @@ $(function() {
                     user_id : user_id
                 }).done(function(d) {
                     well.append($("<span></span>")
+                        .css('visibility', 'hidden')
                         .addClass("tag-id")
                         .text(d)
                     );

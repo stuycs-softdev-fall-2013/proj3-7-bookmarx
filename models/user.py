@@ -12,7 +12,7 @@ class User(Model):
     self.user_id = user_id
     self.load()
   def load(self):
-    data = database.getUser(self.user_id)
+    data = database.getUser(self)
     if data:
       self.username = data['username']
       self.tags = data['tags']

@@ -3,15 +3,19 @@
 {% block head %}
   {{ super() }}
   <style>
-    .sortable { list-style-type: none; margin: 0; padding: 0; width: 30%;
-                height: 20px; }
+    .sortable { list-style-type: none;
+                margin: 0;
+                padding: 0;
+                width: 30%;
+                height: 20px;
+    }
     .sortable li {
       margin: 0 3px 3px 3px;
       padding-left: 1.5em;
       padding-right: 0.5em;
       font-size: 1.1em;
       height: 25px;
-     }
+    }
     .sortable li span {
       position: absolute;
       margin-left: -1.3em;
@@ -32,6 +36,12 @@
       padding: 5px 10px 10px;
       max-height: 300px;
       overflow-y: scroll;
+    }
+    .tag-id {
+      visibility: 'hidden';
+    }
+    .dropdown-tag-id {
+      visibility: 'hidden';
     }
   </style>
   <script src="{{ url_for('static', filename='js/home.js') }}"></script>
@@ -60,7 +70,7 @@
           <span class="dropdown-tag-id">{{ tag.id }}</span>
           <label type="checkbox">
             <input type="checkbox" class="should-use-tag">
-            Potato
+            {{ tag.name }} 
           </label>
         </li>
       {% endfor %}
@@ -104,8 +114,8 @@
   </div>
   {% for tag in d['user'].tags %}
     <div class="tag well" style="height: {{ 85 + 28 * tag.bookmarks|count }}px;">
-      <span class="tag-id">{{ tag.id }}</span>
       <h3>{{ tag.name }}</h3>
+      <span style="visibility: hidden" class="tag-id">{{ tag.id }}</span>
       <ul class="sortable">
         {% for bookmark in tag.bookmarks %}
           <li class='ui-state-default'>

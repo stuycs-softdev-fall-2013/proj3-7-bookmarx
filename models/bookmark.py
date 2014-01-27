@@ -5,7 +5,7 @@ class Bookmark(Model):
   idnum = -1
   tags = []
   link = "Default link"
-  name = "Default Bookmark Title"
+  title = "Default Bookmark Title"
   creator = "Default creator"
   def __init__(self, title=None, link=None, idnum=None):
     if idnum:
@@ -22,9 +22,9 @@ class Bookmark(Model):
       self.idnum = variables[0]
     else:
       self.link = variables[1]
-      self.name = variables[2]
-      self.tags = variables[3]
-      self.creator = variables[4]
+      self.title = variables[2]
+      self.creator = variables[3]
+      self.tags = variables[4]
   def unload(self):
     database.setBookmark(self)
   def addTag(self, tag):

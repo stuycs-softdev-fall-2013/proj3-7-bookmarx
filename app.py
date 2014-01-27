@@ -23,6 +23,8 @@ def home():
     d = {}
     d['logged_in'] = True
     d['user'] = User(session['user_id'])
+    for tag in d['user'].tags:
+        print tag.name
     for bookmark in d['user'].untagged:
         print bookmark
     return render_template("home.html", d=d)
@@ -77,6 +79,24 @@ def action():
         database.removeBookmark(request.form['bookmark_id'])
         print "remove-bookmark %s"%request.form['bookmark_id']
         return "Bookmark removed"
+    elif action == 'make-tag':
+        u = User(request.form['user_id'])
+        t = Tag(request.form['tag_name'])
+        t.creator = u.user_id
+        u.tags.append(t)
+        print "make-tag %s %s: %s"%(request.form['user_id'], request.form['tag_name'],
+                                    t.idnum)
+        return str(t.idnum)
+    elif action == 'add-tag':
+        b = Bookmark(idnum=request.form['bookmark_id'])
+        t = Tag(idnum=request.form['tag_id'])
+        print b.tags
+        b.tags.append(t)
+        t.bookmarks.append(b)
+        b.unload()
+        t.unload()
+        print "add-tag", request.form['bookmark_id'], request.form['tag_id']
+        return "tagging added"
 
 if __name__ == "__main__":
     app.debug = True

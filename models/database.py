@@ -1,4 +1,5 @@
 import sqlite3
+from tag import Tag
 
 userFields = ["username","user_id"]
 tagFields = ["id", "name", "description", "color", "creator", "privacy"]
@@ -7,8 +8,9 @@ bookmarkFields = ["id", "link", "title", "creator", "num_tags"]
 ################################ GET FUNCTIONS #################################
 #Get functions return None if the entry doesn't exist
 
-def getUser(user_id):
+def getUser(user):
     # get relevant user
+    user_id = user.user_id
     connection = sqlite3.connect('marx.db')
     q = "select * from users where user_id=?"
     cursor = connection.execute(q, [user_id])
@@ -22,9 +24,8 @@ def getUser(user_id):
     results = { 'username' : matching_users[0][0] }
 
     # get tags created
-    connection.execute("select * from tags where creator=?", [user_id])
-    results['tags'] = [line for line in cursor]
-
+    cursor = connection.execute("select * from tags where creator=?", [user_id])
+    results['tags'] = [Tag(idnum=line[0]) for line in cursor]
 
     # get followed tags
     q = "select tags.* from tags,followings where followings.user=? and " + \
@@ -40,22 +41,27 @@ def getUser(user_id):
     return results
 
 
-def getTag(idnum):
+def getTag(tag):
+    idnum = tag.idnum
     connection = sqlite3.connect('marx.db')
     q = "select * from tags where id=?"
-    cursor = connection.execute(q, [str(idnum)])
+    cursor = connection.execute(q, [idnum])
     results = [line for line in cursor]
     if len(results) == 1:
         results = [line for line in results[0]]
         results[3] = results[3].split(',')
         q = "select bookmarks.* from bookmarks,taggings where taggings.tag=? and " + \
             "taggings.bookmark=bookmarks.id"
-        cursor = connection.execute(q, [str(idnum)])
+        cursor = connection.execute(q, [idnum])
         bookmarks = [line for line in cursor]
         results.append(bookmarks)
         return results
     else:
-        return None
+        idnum = len([l for l in connection.execute("select * from tags")])
+        info = [idnum, "", "", "", "", ""]
+        connection.execute("insert into tags values(?,?,?,?,?,?)", info)
+        connection.commit()
+        return [idnum]
 
 
 def getBookmark(bookmark):
@@ -64,11 +70,12 @@ def getBookmark(bookmark):
     cursor = connection.execute("select * from bookmarks where id=?", [idnum])
     results = [line for line in cursor]
     if len(results) == 1:
-        results = [line for line in results[0]]
+        results = [line for line in results[0]][:-1] # eliminate the num_tags
         q = "select tags.* from tags,taggings where taggings.bookmark=? and " + \
             "taggings.tag=tags.id"
         cursor = connection.execute(q, [idnum])
         tags = [line for line in cursor]
+        print tags
         results.append(tags)
         return results
     else:
@@ -108,23 +115,32 @@ def setUser(user):
             q = "update users set %s=? where user_id=?"%(userFields[i])
             connection.execute(q, [info[i], user.user_id])
 
-    # update relevant tags
-    connection.execute("delete from tags where tags.creator=?", [user.user_id])
-    for i in range(len(user.tags)):
-        connection.execute("insert into tags values(?,?,?,?,?,?)", [tags[i][:6]])
-
     # update relevant followings
     q = "delete from followings where followings.user=?"
     connection.execute(q, [user.user_id])
     for i in range(len(user.followed_tags)):
         q = "insert into followings values(?,?)"
-        connection.execute(q, [user.username, followed_tags[i][0]])
+        connection.execute(q, [user.username, user.followed_tags[i][0]])
     
+<<<<<<< HEAD
    
+=======
+    # update relevant friendships
+    connection.execute("delete from friendships where friendships.user1=?",
+                       [user.user_id])
+    connection.execute("delete from friendships where friendships.user2=?",
+                       [user.user_id])
+    for i in range(len(user.friends)):
+        q = "insert into friendships values(?,?)"
+        connection.execute(q, [user.username, user.friends[i][0]])
+        connection.execute(q, [user.friends[i][0], user.username])
+>>>>>>> Fix vanishing tags.
     connection.commit()
 
 
 def setTag(tag):
+    if tag.name == "Default Tag Name":
+        print "IT'S ME"
     info = [tag.idnum, tag.name, tag.description,
             " ".join([str(c) for c in tag.color]),
             tag.creator, tag.privacy, tag.bookmarks]
@@ -141,15 +157,15 @@ def setTag(tag):
     for i in range(len(tagFields)):
         if results[0][i] != info[i]:
             q = "update tags set %s=? where id=?"%(tagFields[i])
-            cursor = connection.execute(q, [info[i],idnum])
+            cursor = connection.execute(q, [info[i], tag.idnum])
     q = "delete from taggings where tag=?"
 
     for i in range(len(tag.bookmarks)):
         q = "insert into taggings values(?,?)"
         try:
-            connection.execute(q, [tag.idnum,tag.bookmarks[i].idnum])
+            connection.execute(q, [tag.idnum, tag.bookmarks[i].idnum])
         except:
-            connection.execute(q, [tag.idnum,tag.bookmarks[i][0]])
+            connection.execute(q, [tag.idnum, tag.bookmarks[i][0]])
             print "FUCK"
     connection.commit()
 
