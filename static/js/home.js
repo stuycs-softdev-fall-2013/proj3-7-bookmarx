@@ -26,7 +26,10 @@ $(function() {
             .addClass("ui-state-default")
             .append($("<p></p>")
                 .addClass("alignleft")
-                .append($("<a></a>")
+                .append($("<input>")
+                    .attr('type', 'checkbox')
+                    .addClass("should-tag")
+                ).append($("<a></a>")
                     .text(title)
                     .attr('href', link)
                 )
@@ -138,7 +141,8 @@ $(function() {
                 // add tag to db
                 $.post(URL + "action", {
                     action : "make-tag",
-                    tag_name : tag_name
+                    tag_name : tag_name,
+                    user_id : user_id
                 }).done(function(d) {
                     well.append($("<span></span>")
                         .addClass("tag-id")
@@ -162,7 +166,6 @@ $(function() {
     }
 
     var addTag = function(bookmark, tag) {
-        console.log("add tag");
         // add to db
         var bookmark_id = $(bookmark).find(".bookmark-id").text();
         var tag_id = $(tag).find(".tag-id").text();
@@ -170,7 +173,7 @@ $(function() {
             action : "add-tag",
             bookmark_id : bookmark_id,
             tag_id : tag_id
-        });
+        }).done(function(){console.log("add tag");});
         
         // if bookmark was untagged, remove from untagged
         var untaggeds = $("untagged");
