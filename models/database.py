@@ -121,20 +121,7 @@ def setUser(user):
     for i in range(len(user.followed_tags)):
         q = "insert into followings values(?,?)"
         connection.execute(q, [user.username, user.followed_tags[i][0]])
-    
-<<<<<<< HEAD
-   
-=======
-    # update relevant friendships
-    connection.execute("delete from friendships where friendships.user1=?",
-                       [user.user_id])
-    connection.execute("delete from friendships where friendships.user2=?",
-                       [user.user_id])
-    for i in range(len(user.friends)):
-        q = "insert into friendships values(?,?)"
-        connection.execute(q, [user.username, user.friends[i][0]])
-        connection.execute(q, [user.friends[i][0], user.username])
->>>>>>> Fix vanishing tags.
+
     connection.commit()
 
 
