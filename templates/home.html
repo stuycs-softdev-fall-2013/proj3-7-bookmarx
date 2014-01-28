@@ -93,7 +93,7 @@
     <a id="make-bookmark" class="btn btn-success btn-sm">Create</a>
   </form>
   <br></br>
-  <div class="well" style="height: {{ 95 + 28 * d['user'].untagged|count }}px;">
+  <div class="well" style="height: {{ 85 + 28 * d['user'].untagged|count }}px;">
     <h3>Untagged</h3>
     <ul class="sortable untagged">
       {% for bookmark in d['user'].untagged %}
@@ -113,7 +113,7 @@
     </ul>
   </div>
   {% for tag in d['user'].tags %}
-    <div class="tag well" style="height: {{ 95 + 28 * tag.bookmarks|count }}px;">
+    <div class="tag well" style="height: {{ 105 + 28 * tag.bookmarks|count }}px;">
       <h3>{{ tag.name }}</h3>
       <span style="visibility: hidden" class="tag-id">{{ tag.id }}</span>
       <ul class="sortable">
